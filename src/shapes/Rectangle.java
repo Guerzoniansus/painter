@@ -2,17 +2,19 @@ package shapes;
 
 import java.awt.*;
 
-public class Rectangle extends Shape implements Figure {
+/**
+ * A simple rectangle
+ */
+public class Rectangle extends Shape {
 
     public Rectangle(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        super(x, y, width, height);
     }
 
     @Override
     public void draw(Graphics g) {
         g.fillRect(x, y, width, height);
     }
+
+
 }

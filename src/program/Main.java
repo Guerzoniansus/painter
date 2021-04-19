@@ -1,6 +1,8 @@
+package program;
+
 public class Main {
 
     public static void main(String[] args) {
-        Painter painter = new Painter();
+        PainterProgram painter = new PainterProgram();
     }
 }

@@ -1,13 +1,13 @@
+package program;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
 
-public class Window {
+class Window {
 
     private JFrame frame;
 
-    public Window(String title, int width, int height, JPanel panel) {
+    Window(String title, int width, int height, JPanel panel) {
         frame = new JFrame(title);
         frame.setSize(width, height);
 
