@@ -13,9 +13,10 @@ public class ToolRectangle extends ToolShapeCreator {
         super(painter);
     }
 
+
     @Override
     protected Shape createFigure() {
-        return (Shape) getSelection();
+        return getSelection();
     }
 
 }

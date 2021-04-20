@@ -7,17 +7,16 @@ import shapes.Shape;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 
 /**
  * A tool that creates shapes, such as rectangles or ellipses
  */
 public abstract class ToolShapeCreator extends Tool {
 
-    private boolean dragging;
-    private Rectangle selection;
+    protected boolean dragging;
+    protected Rectangle selection;
 
-    private Point clickPoint;
+    protected Point clickPoint;
 
     protected ToolShapeCreator(PainterProgram painter) {
         super(painter);
@@ -38,7 +37,7 @@ public abstract class ToolShapeCreator extends Tool {
      * @param point2 The second click point
      * @return Returns a rectangle from point 1 to point two
      */
-    private Rectangle determineSelection(Point point1, Point point2) {
+    protected Rectangle determineSelection(Point point1, Point point2) {
         int x = Math.min(point1.x, point2.x);
         int y = Math.min(point1.y, point2.y);
 
@@ -52,14 +51,14 @@ public abstract class ToolShapeCreator extends Tool {
      * Function used to draw the current selection (mouse drag movement) on the screen
      * @param g The graphics object to draw to
      */
-    private void showSelection(Graphics g) {
+    protected void showSelection(Graphics g) {
         if (selection != null) {
             createFigure().draw(g);
         }
     }
 
     /**
-     * Retrusn a copy of the rectangle representing the selection made by the user's mouse
+     * Return a copy of the rectangle representing the selection made by the user's mouse
      * @return A selection rectangle
      */
     public Rectangle getSelection() {
@@ -72,6 +71,21 @@ public abstract class ToolShapeCreator extends Tool {
     }
 
     @Override
+    public void activate() {
+        dragging = false;
+        selection = null;
+        clickPoint = null;
+        painter.addMouseListener(this);
+        painter.addMouseMotionListener(this);
+    }
+
+    @Override
+    public void deActivate() {
+        painter.removeMouseListener(this);
+        painter.removeMouseMotionListener(this);
+    }
+
+    @Override
     public void mousePressed(MouseEvent e) {
         clickPoint = e.getPoint();
     }
@@ -79,7 +93,7 @@ public abstract class ToolShapeCreator extends Tool {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (dragging == true) {
-            painter.addFigure((Figure) createFigure());
+            painter.addFigure(createFigure());
 
             selection = null;
             dragging = false;
@@ -114,8 +128,4 @@ public abstract class ToolShapeCreator extends Tool {
 
     }
 
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-
-    }
 }

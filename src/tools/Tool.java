@@ -5,19 +5,16 @@ import program.PainterProgram;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelListener;
 
 /**
  * Abstract class for tools used in this program
  */
-public abstract class Tool implements MouseListener, MouseMotionListener, MouseWheelListener {
+public abstract class Tool implements MouseListener, MouseMotionListener {
 
-    protected Graphics g;
     protected PainterProgram painter;
 
     public Tool(PainterProgram painter) {
         this.painter = painter;
-        this.g = painter.getGraphics();
     }
 
     /**
@@ -42,5 +39,15 @@ public abstract class Tool implements MouseListener, MouseMotionListener, MouseW
      * @param g The graphics object to draw to
      */
     public abstract void onDraw(Graphics g);
+
+    /**
+     * Function that should get run when this tool gets activated
+     */
+    public abstract void activate();
+
+    /**
+     * Function that should be run when this tool gets deactivated
+     */
+    public abstract void deActivate();
 
 }

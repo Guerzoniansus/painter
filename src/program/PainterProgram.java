@@ -2,7 +2,6 @@ package program;
 
 import gui.GUI;
 import shapes.Figure;
-import shapes.Rectangle;
 import tools.Tool;
 
 import javax.swing.*;
@@ -36,6 +35,7 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.setDoubleBuffered(true);
+        this.setFocusable(true);
 
         Tool.createTools(this);
         setActiveTool(Tool.TOOL_SELECT);
@@ -53,15 +53,12 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
      */
     public void setActiveTool(Tool newTool) {
         if (currentTool != null) {
-            this.removeMouseListener(currentTool);
-            this.removeMouseMotionListener(currentTool);
-            this.removeMouseWheelListener(currentTool);
+            currentTool.deActivate();
         }
 
         currentTool = newTool;
-        this.addMouseListener(currentTool);
-        this.addMouseMotionListener(currentTool);
-        this.addMouseWheelListener(currentTool);
+        currentTool.activate();
+        repaint();
     }
 
     @Override
@@ -90,11 +87,27 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     }
 
     /**
+     * Remove a figure from the list of figures
+     * @param figure
+     */
+    public void removeFigure(Figure figure) {
+        figures.remove(figure);
+    }
+
+    /**
      * Return the currently selected tool
      * @return The currently selected tool
      */
     public Tool getActiveTool() {
         return currentTool;
+    }
+
+    /**
+     * Get a list of all figures
+     * @return The list of figures
+     */
+    public List<Figure> getFigures() {
+        return figures;
     }
 
 

@@ -7,6 +7,8 @@ public abstract class Shape implements Figure {
 
     protected int x, y, width, height;
 
+    protected final int MINIMUM_SIZE = 5;
+
     Shape(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -16,8 +18,18 @@ public abstract class Shape implements Figure {
 
     @Override
     public void resize(double factor) {
-        width = (int) (width * factor);
-        height = (int) (height * factor);
+        final int newWidth = (int) (width + factor);
+        final int newHeight = (int) (height + factor);
+
+        // Prevent shapes from becoming impossibly small
+        if (factor < 0) {
+            if (newWidth < MINIMUM_SIZE || newHeight < MINIMUM_SIZE) {
+                return;
+            }
+        }
+
+        width = newWidth;
+        height = newHeight;
     }
 
     @Override
@@ -25,6 +37,7 @@ public abstract class Shape implements Figure {
         x += horizontalDistance;
         y += verticalDistance;
     }
+
 
     /**
      * Get X
@@ -57,4 +70,5 @@ public abstract class Shape implements Figure {
     public int getHeight() {
         return height;
     }
+
 }
