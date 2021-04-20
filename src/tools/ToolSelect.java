@@ -1,5 +1,7 @@
 package tools;
 
+import commands.Command;
+import commands.CreateGroupCommand;
 import program.PainterProgram;
 import shapes.Figure;
 
@@ -119,6 +121,8 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+        /* ===== Resizing ===== */
+
         if (areFiguresSelected()) {
             // If wheel rotation < 0, it means user scrolled UP, which means INCREASE size
             // If wheel rotation >= 0, it means user scrolled DOWN, which means DECREASE size (NEGATIVE factor)
@@ -129,20 +133,30 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getButton() != LEFT_MOUSE_BUTTON) {
-            return;
+        if (e.getButton() == LEFT_MOUSE_BUTTON) {
+            // Select a shape
+            selectShapes(e.getPoint());
         }
-
-        selectShapes(e.getPoint());
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == GROUP_BUTTON) {
+            // Execute the command
+            CreateGroupCommand createGroupCommand = new CreateGroupCommand(painter, new ArrayList<>(selectedFigures));
+            painter.executeCommand(createGroupCommand);
 
+            // Reset the selection to now be the new group
+            selectedFigures.clear();
+            selectedFigures.add(createGroupCommand.getGroup());
+
+            painter.repaint();
+        }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        /* ===== Creating a shape by dragging mouse ===== */
         if (previousMousePoint != null) {
             int horizontalDistance = (int) (e.getPoint().getX() - previousMousePoint.getX());
             int verticalDistance = (int) (e.getPoint().getY() - previousMousePoint.getY());
@@ -155,6 +169,7 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
 
     @Override
     public void mousePressed(MouseEvent e) {
+        /* ===== Set starting point for moving a shape ===== */
         if (isPointOnAFigure((int) e.getPoint().getX(), (int) e.getPoint().getY())) {
             previousMousePoint = e.getPoint();
         }
@@ -162,6 +177,7 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        /* ===== Remove starting point for moving a shape ===== */
         previousMousePoint = null;
     }
 
@@ -181,11 +197,9 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 }

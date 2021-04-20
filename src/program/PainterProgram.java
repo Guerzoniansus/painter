@@ -1,18 +1,18 @@
 package program;
 
+import commands.Command;
 import gui.GUI;
 import shapes.Figure;
+import shapes.Group;
 import tools.Tool;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PainterProgram extends JPanel implements MouseListener, MouseMotionListener {
+public class PainterProgram extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 
     private static String TITLE = "Painter";
     private static int WINDOW_WIDTH = 1300;
@@ -26,14 +26,21 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
 
     private Tool currentTool;
 
+    private History history;
+
+    private final int UNDO_BUTTON = 90; // Z key
+    private final int REDO_BUTTON = 89; // Y key
+
 
     public PainterProgram() {
         window = new Window(TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, this);
         figures = new ArrayList();
+        history = new History();
 
         this.setLayout(null);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+        this.addKeyListener(this);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
 
@@ -110,6 +117,28 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
         return figures;
     }
 
+    /**
+     * Undo the last command
+     */
+    public void undo() {
+        history.undo();
+    }
+
+    /**
+     * Redo the last undone action
+     */
+    public void redo() {
+        history.redo();
+    }
+
+    /**
+     * Execute a command and save it in the history
+     * @param command The command to execute
+     */
+    public void executeCommand(Command command) {
+        command.execute();
+        history.addCommand(command);
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -141,6 +170,27 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
 
     @Override
     public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == UNDO_BUTTON) {
+            undo();
+        }
+
+        else if (e.getKeyCode() == REDO_BUTTON) {
+            redo();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }
