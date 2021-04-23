@@ -8,17 +8,17 @@ public class ResizeCommand implements Command {
 
     private PainterProgram painter;
     private double factor;
-    private List<Figure> selectedFigures;
+    private List<Figure> Figures;
 
-    public ResizeCommand(PainterProgram painter, double factor, List<Figure> selectedFigures){
+    public ResizeCommand(PainterProgram painter, double factor, List<Figure> Figures){
         this.painter = painter;
         this.factor = factor;
-        this.selectedFigures = selectedFigures;
+        this.Figures = Figures;
     }
 
     @Override
     public void execute(){
-        selectedFigures.forEach(figure -> figure.resize(factor));
+        Figures.forEach(figure -> figure.resize(factor));
         painter.repaint();
     }
 

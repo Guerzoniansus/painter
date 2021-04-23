@@ -8,6 +8,8 @@ import shapes.Shape;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+import commands.DrawShapeCommand;
+
 /**
  * A tool that creates shapes, such as rectangles or ellipses
  */
@@ -93,11 +95,10 @@ public abstract class ToolShapeCreator extends Tool {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (dragging == true) {
-            painter.addFigure(createFigure());
-
+            DrawShapeCommand drawShapeCommand = new DrawShapeCommand(painter, createFigure());
+            painter.executeCommand(drawShapeCommand);
             selection = null;
             dragging = false;
-            painter.repaint();
         }
     }
 

@@ -76,8 +76,13 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Don't remove this line
         currentTool.onDraw(g);
-        DrawShapeCommand drawShapeCommand = new DrawShapeCommand(figures, g);
-        executeCommand(drawShapeCommand);
+        drawFigure(g);
+    }
+
+    public void drawFigure(Graphics g) {
+        for (Figure figure : figures) {
+            figure.draw(g);
+        }
     }
     /**
      * Add a figure to the list of figures

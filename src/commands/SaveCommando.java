@@ -12,7 +12,7 @@ import shapes.Group;
 
 public class SaveCommando implements Command{
 
-    private final String fileName = "Fileio.txt";
+    private final String fileName = "resources/Fileio.txt";
     private FileWriter writer;
     private List<Figure> figures;
 

@@ -6,16 +6,17 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 
 import shapes.Ellipse;
 import shapes.Rectangle;
 import program.PainterProgram;
+import shapes.Figure;
 
 public class LoadCommando implements Command{
 
-    private final String fileName = "Fileio.txt";
+    private final String fileName = "resources/Fileio.txt";
     private PainterProgram painter;
-    private static int x,y,width,height;
 
     public LoadCommando(PainterProgram painter){
         this.painter = painter;
@@ -24,6 +25,10 @@ public class LoadCommando implements Command{
     @Override
     public void execute(){
         try {
+            if (!painter.getFigures().isEmpty()){
+            painter.getFigures().clear();
+            }
+            int x,y,width,height;
             FileReader fileReader = new FileReader(fileName);
             BufferedReader bufferdReader = new BufferedReader(fileReader); 
             int chars;

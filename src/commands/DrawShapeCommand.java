@@ -1,23 +1,21 @@
 package commands;
-import shapes.Figure;
-import java.awt.*;
-import java.util.List;
+import shapes.Shape;
+import program.PainterProgram;
 
 public class DrawShapeCommand implements Command{
 
-    private List<Figure> figures;
-    private Graphics g;
+    private PainterProgram painter;
+    private Shape shape;
 
-    public DrawShapeCommand(List<Figure> figures, Graphics g){
-        this.figures = figures;
-        this.g = g;
+    public DrawShapeCommand(PainterProgram painter, Shape shape){
+        this.painter = painter;
+        this.shape = shape;
     }
 
     @Override
     public void execute(){
-        for (Figure figure : figures) {
-            figure.draw(g);
-        }
+        painter.addFigure(shape);
+        painter.repaint();
     }
 
     @Override

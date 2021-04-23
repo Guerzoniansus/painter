@@ -24,7 +24,6 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
     private final double RESIZE_FACTOR = 30;
 
     private List<Figure> selectedFigures;
-
     private Point previousMousePoint;
 
     protected ToolSelect(PainterProgram painter) {
@@ -145,10 +144,9 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
         if (previousMousePoint != null) {
             int horizontalDistance = (int) (e.getPoint().getX() - previousMousePoint.getX());
             int verticalDistance = (int) (e.getPoint().getY() - previousMousePoint.getY());
-            MoveCommand moveCommand = new MoveCommand(selectedFigures, horizontalDistance, verticalDistance);
-            painter.executeCommand(moveCommand);
             previousMousePoint = e.getPoint();
-            painter.repaint();
+            MoveCommand moveCommand = new MoveCommand(painter, selectedFigures, horizontalDistance, verticalDistance);
+            painter.executeCommand(moveCommand);
         }
     }
 

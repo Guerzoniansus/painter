@@ -1,23 +1,26 @@
 package commands;
 
 import shapes.Figure;
+import program.PainterProgram;
 import java.util.List;
 
 public class MoveCommand implements Command{
-    
-    private List<Figure> selectedFigures;
+
+    private PainterProgram painter;
+    private List<Figure> Figures;
     private int horizontalDistance;
     private int verticalDistance;
 
-    public MoveCommand(List<Figure> selectedFigures, int horizontalDistance, int verticalDistance){
-        this.selectedFigures = selectedFigures;
+    public MoveCommand(PainterProgram painter, List<Figure> Figures, int horizontalDistance, int verticalDistance){
+        this.Figures = Figures;
         this.horizontalDistance = horizontalDistance;
         this.verticalDistance = verticalDistance;
     }
 
     @Override
     public void execute(){
-        selectedFigures.forEach(figure -> figure.move(horizontalDistance, verticalDistance));
+        Figures.forEach(figure -> figure.move(horizontalDistance, verticalDistance));
+        painter.repaint();
     }
 
     @Override
