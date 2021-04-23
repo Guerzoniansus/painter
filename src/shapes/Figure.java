@@ -39,5 +39,7 @@ public interface Figure {
      */
     boolean contains(int x, int y);
 
+    String getName();
+
 
 }

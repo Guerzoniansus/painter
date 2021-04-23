@@ -19,11 +19,11 @@ public class CreateGroupCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(){
         figures.forEach(figure -> painter.removeFigure(figure));
 
         group = new Group(figures, painter);
-        painter.addFigure(group);
+        painter.addFigure(group);   
     }
 
     @Override

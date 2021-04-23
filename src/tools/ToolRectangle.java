@@ -8,7 +8,6 @@ import shapes.Shape;
  */
 public class ToolRectangle extends ToolShapeCreator {
 
-
     protected ToolRectangle(PainterProgram painter) {
         super(painter);
     }

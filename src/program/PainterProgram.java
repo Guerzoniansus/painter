@@ -1,6 +1,6 @@
 package program;
 
-import commands.Command;
+import commands.*;
 import gui.GUI;
 import shapes.Figure;
 import shapes.Group;
@@ -9,6 +9,7 @@ import tools.Tool;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
 
     private final int UNDO_BUTTON = 90; // Z key
     private final int REDO_BUTTON = 89; // Y key
+    private final int SAVE_BUTTON = 83; // S key
+    private final int LOAD_BUTTON = 76; // S key
+
 
 
     public PainterProgram() {
@@ -72,19 +76,9 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Don't remove this line
         currentTool.onDraw(g);
-        drawFigures(g);
+        DrawShapeCommand drawShapeCommand = new DrawShapeCommand(figures, g);
+        executeCommand(drawShapeCommand);
     }
-
-    /**
-     * Draw all figures
-     * @param g The graphics object to draw to
-     */
-    private void drawFigures(Graphics g) {
-        for (Figure figure : figures) {
-            figure.draw(g);
-        }
-    }
-
     /**
      * Add a figure to the list of figures
      * @param figure The figure to add
@@ -183,10 +177,18 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
         if (e.getKeyCode() == UNDO_BUTTON) {
             undo();
         }
-
         else if (e.getKeyCode() == REDO_BUTTON) {
             redo();
         }
+        else if (e.getKeyCode() == SAVE_BUTTON) {
+            SaveCommando saveCommando = new SaveCommando(figures);
+            executeCommand(saveCommando);
+        }
+        else if (e.getKeyCode() == LOAD_BUTTON) {
+            LoadCommando loadCommando = new LoadCommando(this);
+            executeCommand(loadCommando);
+        }
+        
     }
 
     @Override

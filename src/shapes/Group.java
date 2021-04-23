@@ -32,6 +32,14 @@ public class Group implements Figure {
         return figures.size();
     }
 
+    public int getCount(){
+        return count;
+    }
+
+    public List<Figure> getFigures(){
+        return figures;
+    }
+
     @Override
     public void draw(Graphics g) {
         figures.forEach(figure -> figure.draw(g));
@@ -61,5 +69,10 @@ public class Group implements Figure {
         }
 
         return false;
+    }
+
+    @Override
+    public String getName(){
+        return "group";
     }
 }

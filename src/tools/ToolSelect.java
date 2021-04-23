@@ -2,6 +2,8 @@ package tools;
 
 import commands.Command;
 import commands.CreateGroupCommand;
+import commands.MoveCommand;
+import commands.ResizeCommand;
 import program.PainterProgram;
 import shapes.Figure;
 
@@ -53,19 +55,6 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
         painter.removeKeyListener(this);
     }
 
-
-    /**
-     * Resize all figures
-     * @param increaseIfTrueDecreaseIfFalse Speaks for itself
-     */
-    private void resizeFigures(boolean increaseIfTrueDecreaseIfFalse) {
-        // Use negative factor when decreasing size
-        final double factor = increaseIfTrueDecreaseIfFalse == true ? RESIZE_FACTOR : 0 - RESIZE_FACTOR;
-
-        selectedFigures.forEach(figure -> figure.resize(factor));
-        painter.repaint();
-    }
-
     /**
      * Select all shapes that are clicked on by the mouse
      * @param point The point of the mouse click
@@ -105,13 +94,6 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
     }
 
     /**
-     * Move all figures
-     */
-    private void moveFigures(int horizontalDistance, int verticalDistance) {
-        selectedFigures.forEach(figure -> figure.move(horizontalDistance, verticalDistance));
-    }
-
-    /**
      * Checks if any figures are selected
      * @return True if 1 or more figures are selected, false otherwise
      */
@@ -127,7 +109,10 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
             // If wheel rotation < 0, it means user scrolled UP, which means INCREASE size
             // If wheel rotation >= 0, it means user scrolled DOWN, which means DECREASE size (NEGATIVE factor)
             boolean increaseIfTrueDecreaseIfFalse = e.getWheelRotation() < 0 ? true : false;
-            resizeFigures(increaseIfTrueDecreaseIfFalse);
+            // Use negative factor when decreasing size
+            final double factor = increaseIfTrueDecreaseIfFalse == true ? RESIZE_FACTOR : 0 - RESIZE_FACTOR;
+            ResizeCommand resizeCommand = new ResizeCommand(painter, factor, selectedFigures);
+            painter.executeCommand(resizeCommand);
         }
     }
 
@@ -160,7 +145,8 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
         if (previousMousePoint != null) {
             int horizontalDistance = (int) (e.getPoint().getX() - previousMousePoint.getX());
             int verticalDistance = (int) (e.getPoint().getY() - previousMousePoint.getY());
-            moveFigures(horizontalDistance, verticalDistance);
+            MoveCommand moveCommand = new MoveCommand(selectedFigures, horizontalDistance, verticalDistance);
+            painter.executeCommand(moveCommand);
             previousMousePoint = e.getPoint();
             painter.repaint();
         }

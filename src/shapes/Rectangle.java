@@ -40,5 +40,8 @@ public class Rectangle extends Shape {
         return new java.awt.Rectangle(this.x, this.y, width, height).contains(x, y);
     }
 
-
+    @Override
+    public String getName(){
+        return "rectangle";
+    }
 }

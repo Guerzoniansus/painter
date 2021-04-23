@@ -43,5 +43,8 @@ public class Ellipse extends Shape {
         return new java.awt.geom.Ellipse2D.Double(this.x, this.y, width, height).contains(x, y);
     }
 
-
+    @Override
+    public String getName(){
+        return "ellipse";
+    }
 }
