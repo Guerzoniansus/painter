@@ -1,5 +1,6 @@
 package commands;
 import shapes.Shape;
+import program.History;
 import program.PainterProgram;
 
 public class DrawShapeCommand implements Command{
@@ -20,6 +21,8 @@ public class DrawShapeCommand implements Command{
 
     @Override
     public void undo() {
-
+        painter.removeFigure(shape);
+        painter.repaint();
     }
+
 }

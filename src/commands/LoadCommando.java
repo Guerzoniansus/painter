@@ -12,20 +12,24 @@ import shapes.Ellipse;
 import shapes.Rectangle;
 import program.PainterProgram;
 import shapes.Figure;
+import program.History;
 
 public class LoadCommando implements Command{
 
     private final String fileName = "resources/Fileio.txt";
     private PainterProgram painter;
+    private List<Figure> figures;
 
     public LoadCommando(PainterProgram painter){
         this.painter = painter;
+        this.figures = new ArrayList<>();
     }
 
     @Override
     public void execute(){
         try {
             if (!painter.getFigures().isEmpty()){
+            figures = painter.getFigures();    
             painter.getFigures().clear();
             }
             int x,y,width,height;
@@ -60,15 +64,24 @@ public class LoadCommando implements Command{
                     painter.addFigure(new Ellipse(x, y , width, height));
                 }
             }
+            History history = new History();
+            history.addCommand(this);
         }
         catch (IOException e) {
             e.printStackTrace();
         } 
     }
 
+    public List<Figure> getFigures(){
+        return painter.getFigures();
+    }
+
     @Override
     public void undo(){
-
+        painter.getFigures().clear();
+        if (figures.size() > 0){
+        figures.forEach(figure -> painter.addFigure(figure));
+        }
     }
 
 }

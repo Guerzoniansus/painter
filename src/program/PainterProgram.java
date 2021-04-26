@@ -186,7 +186,7 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
             redo();
         }
         else if (e.getKeyCode() == SAVE_BUTTON) {
-            SaveCommando saveCommando = new SaveCommando(figures);
+            SaveCommando saveCommando = new SaveCommando(this, figures);
             executeCommand(saveCommando);
         }
         else if (e.getKeyCode() == LOAD_BUTTON) {

@@ -19,14 +19,28 @@ public class History {
      * Undo the last action. Does nothing if there is nothing to undo.
      */
     public void undo() {
-        
+        if (historyCommands.size() > 0){
+            Command command = historyCommands.get(historyCommands.size() -1);
+            command.undo();
+            historyCommands.remove(command);
+            undoneCommands.add(command);
+        }
+        else 
+            return;
     }
 
     /**
      * Redo the last undone action(s). Does nothing if there is nothing to redo.
      */
     public void redo() {
-
+        if (undoneCommands.size() > 0){
+            Command command = undoneCommands.get(undoneCommands.size() -1);
+            command.execute();
+            historyCommands.add(command);
+            undoneCommands.remove(command);
+        }
+        else 
+            return;
     }
 
     /**
@@ -36,5 +50,4 @@ public class History {
     public void addCommand(Command command) {
         historyCommands.add(command);
     }
-
 }
