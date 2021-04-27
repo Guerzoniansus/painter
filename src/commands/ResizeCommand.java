@@ -10,47 +10,46 @@ import visitors.ResizeFigureVisitor;
 public class ResizeCommand implements Command {
 
     private final PainterProgram painter;
-    private final double factor;
+    private final int amount;
     private final List<Figure> figures;
 
     /**
      * Create a command for resizing figures
      * @param painter The painter object
-     * @param factor The amount to resize the figure. Use a negative number to shrink it.
+     * @param amount The amount to resize the figure. Use a negative number to shrink it.
      * @param figures A list of figures to resize
      */
-    public ResizeCommand(PainterProgram painter, double factor, List<Figure> figures){
+    public ResizeCommand(PainterProgram painter, int amount, List<Figure> figures){
         this.painter = painter;
-        this.factor = factor;
+        this.amount = amount;
         this.figures = figures;
     }
 
     /**
      * Create a command for resizing a figure
      * @param painter The painter object
-     * @param factor The amount to resize the figure. Use a negative number to shrink it.
+     * @param amount The amount to resize the figure. Use a negative number to shrink it.
      * @param figure The figure to resize
      */
-    public ResizeCommand(PainterProgram painter, double factor, Figure figure){
+    public ResizeCommand(PainterProgram painter, int amount, Figure figure){
         this.painter = painter;
-        this.factor = factor;
+        this.amount = amount;
         this.figures = new ArrayList<>();
         figures.add(figure);
     }
 
     @Override
     public void execute(){
-        ResizeFigureVisitor visitor = new ResizeFigureVisitor(factor);
+        ResizeFigureVisitor visitor = new ResizeFigureVisitor(amount);
         figures.forEach(figure -> figure.accept(visitor));
         painter.repaint();
     }
 
     @Override
     public void undo() {
-        // 1.1 turns into 0.9, 0.5 turns into 2 etc.
-        double reverseFactor = 1 / factor;
+        final int reverseAmount = amount * - 1;
 
-        ResizeFigureVisitor visitor = new ResizeFigureVisitor(reverseFactor);
+        ResizeFigureVisitor visitor = new ResizeFigureVisitor(reverseAmount);
         figures.forEach(figure -> figure.accept(visitor));
         painter.repaint();
     }

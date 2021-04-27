@@ -5,14 +5,14 @@ import shapes.Shape;
 
 public class MoveFigureVisitor implements Visitor {
 
-    private final double horizontalDistance, verticalDistance;
+    private final int horizontalDistance, verticalDistance;
 
     /**
      * A visitor for moving figures
      * @param horizontalDistance The horizontal distance to move
      * @param verticalDistance The vertical distance to move
      */
-    public MoveFigureVisitor(double horizontalDistance, double verticalDistance) {
+    public MoveFigureVisitor(int horizontalDistance, int verticalDistance) {
         this.horizontalDistance = horizontalDistance;
         this.verticalDistance = verticalDistance;
     }

@@ -3,21 +3,20 @@ package program;
 import commands.*;
 import gui.GUI;
 import shapes.Figure;
-import shapes.Group;
 import tools.Tool;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PainterProgram extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 
-    private static String TITLE = "Painter";
-    private static int WINDOW_WIDTH = 1300;
-    private static int WINDOW_HEIGHT = 975;
+    private static final String TITLE = "Painter";
+    private static final int WINDOW_WIDTH = 1300;
+    private static final int WINDOW_HEIGHT = 975;
+    public static final String SAVE_FILE_PATH = "resources/shape.txt";
 
     private Window window;
 
@@ -32,9 +31,8 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     private final int UNDO_BUTTON = 90; // Z key
     private final int REDO_BUTTON = 89; // Y key
     private final int SAVE_BUTTON = 83; // S key
-    private final int LOAD_BUTTON = 76; // S key
-
-
+    private final int LOAD_BUTTON = 76; // L key
+    
 
     public PainterProgram() {
         window = new Window(TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, this);
@@ -76,10 +74,10 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Don't remove this line
         currentTool.onDraw(g);
-        drawFigure(g);
+        drawFigures(g);
     }
 
-    public void drawFigure(Graphics g) {
+    public void drawFigures(Graphics g) {
         for (Figure figure : figures) {
             figure.draw(g);
         }
@@ -186,12 +184,12 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
             redo();
         }
         else if (e.getKeyCode() == SAVE_BUTTON) {
-            SaveCommando saveCommando = new SaveCommando(this, figures);
-            executeCommand(saveCommando);
+            SaveCommand saveCommand = new SaveCommand(this, figures);
+            executeCommand(saveCommand);
         }
         else if (e.getKeyCode() == LOAD_BUTTON) {
-            LoadCommando loadCommando = new LoadCommando(this);
-            executeCommand(loadCommando);
+            LoadCommand loadCommand = new LoadCommand(this);
+            executeCommand(loadCommand);
         }
         
     }

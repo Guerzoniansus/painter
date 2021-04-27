@@ -16,19 +16,6 @@ public interface Figure {
     void draw(Graphics g);
 
     /**
-     * Resize this figure
-     * @param amount The factor with which to multiple the original size
-     */
-    void resize(double amount);
-
-    /**
-     * Move this figure a certain distance. Use negative numbers to move to the top left.
-     * @param horizontalDistance  The amount of distance to travel horizontally.
-     * @param verticalDistance The amount of distance to travel vertically
-     */
-    void move(int horizontalDistance, int verticalDistance);
-
-    /**
      * Mark this figure as selected
      */
     void drawSelectionBorder(Graphics g);

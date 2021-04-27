@@ -8,14 +8,12 @@ import java.util.List;
 
 public class Group implements Figure {
 
-    private int count;
     private List<Figure> figures;
     private PainterProgram painter;
 
     public Group(List<Figure> figures, PainterProgram painter) {
         this.painter = painter;
         this.figures = figures;
-        this.count = figures.size();
     }
 
     /**
@@ -43,15 +41,6 @@ public class Group implements Figure {
         figures.forEach(figure -> figure.draw(g));
     }
 
-    @Override
-    public void resize(double amount) {
-        figures.forEach(figure -> figure.resize(amount));
-    }
-
-    @Override
-    public void move(int horizontalDistance, int verticalDistance) {
-        figures.forEach(figure -> figure.move(horizontalDistance, verticalDistance));
-    }
 
     @Override
     public void drawSelectionBorder(Graphics g) {

@@ -1,7 +1,6 @@
 package tools;
 
 import program.PainterProgram;
-import shapes.Figure;
 import shapes.Rectangle;
 import shapes.Shape;
 

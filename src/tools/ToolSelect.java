@@ -23,8 +23,7 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
     private final int LEFT_MOUSE_BUTTON = 1;
     private final int GROUP_BUTTON = 71; // the G key
 
-    private final double POSITIVE_RESIZE_FACTOR = 1.1;
-    private final double NEGATIVE_RESIZE_FACTOR = 0.9;
+    private final int RESIZE_AMOUNT = 30;
 
     private List<Figure> selectedFigures;
 
@@ -119,8 +118,8 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
             boolean growIfTrueShrinkIfFalse = e.getWheelRotation() < 0 ? true : false;
 
             // Use negative factor when decreasing size
-            final double factor = growIfTrueShrinkIfFalse == true ? POSITIVE_RESIZE_FACTOR : NEGATIVE_RESIZE_FACTOR;
-            ResizeCommand resizeCommand = new ResizeCommand(painter, factor, selectedFigures);
+            final int amount = growIfTrueShrinkIfFalse == true ? RESIZE_AMOUNT : RESIZE_AMOUNT * -1;
+            ResizeCommand resizeCommand = new ResizeCommand(painter, amount, selectedFigures);
             painter.executeCommand(resizeCommand);
         }
     }
@@ -152,8 +151,8 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
     public void mouseDragged(MouseEvent e) {
         // Move shape
         if (previousMousePoint != null) {
-            double horizontalDistance = e.getPoint().getX() - previousMousePoint.getX();
-            double verticalDistance = e.getPoint().getY() - previousMousePoint.getY();
+            int horizontalDistance = (int) (e.getPoint().getX() - previousMousePoint.getX());
+            int verticalDistance = (int) (e.getPoint().getY() - previousMousePoint.getY());
 
             // Move them so user can see feedback
             Visitor visitor = new MoveFigureVisitor(horizontalDistance, verticalDistance);
@@ -179,8 +178,8 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
     public void mouseReleased(MouseEvent e) {
         if (previousMousePoint != null) {
             // Calculate total distance moved
-            double totalDistanceHorizontal = e.getPoint().getX() - originalMousePoint.getX();
-            double totalDistanceVertical = e.getPoint().getY() - originalMousePoint.getY();
+            int totalDistanceHorizontal = (int) (e.getPoint().getX() - originalMousePoint.getX());
+            int totalDistanceVertical = (int) (e.getPoint().getY() - originalMousePoint.getY());
 
             // First reset figures back to their original position
             Visitor visitor = new MoveFigureVisitor(totalDistanceHorizontal * -1, totalDistanceVertical * - 1);

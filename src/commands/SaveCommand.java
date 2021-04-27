@@ -11,21 +11,35 @@ import shapes.Rectangle;
 import shapes.Group;
 import program.History;
 import program.PainterProgram;
+import visitors.SaveFigureVisitor;
 
-public class SaveCommando implements Command{
+public class SaveCommand implements Command{
 
-    private final String fileName = "resources/Fileio.txt";
-    private PainterProgram painter;
-    private FileWriter writer;
-    private List<Figure> figures;
-    private List<Figure> savedFigures;
-    private int whiteSpace;
+    private final PainterProgram painter;
+    private final List<Figure> figures;
 
-    public SaveCommando(PainterProgram painter, List<Figure> figures){
+    //private final List<Figure> oldFigures;
+
+    public SaveCommand(PainterProgram painter, List<Figure> figures){
         this.painter = painter;
         this.figures = figures;
+        //oldFigures = LoadCommand.loadFigures();
     }
 
+    @Override
+    public void execute() {
+        SaveFigureVisitor saver = new SaveFigureVisitor(PainterProgram.SAVE_FILE_PATH, figures.size());
+        figures.forEach(figure -> figure.accept(saver));
+        saver.close();
+    }
+
+    @Override
+    public void undo() {
+        //SaveFigureVisitor saver = new SaveFigureVisitor(PainterProgram.SAVE_FILE_PATH);
+        //oldFigures.forEach(figure -> figure.accept(saver));
+    }
+
+    /*
     @Override
     public void execute() {
         try {
@@ -87,5 +101,7 @@ public class SaveCommando implements Command{
         execute();
 
     }
+
+     */
 }
 

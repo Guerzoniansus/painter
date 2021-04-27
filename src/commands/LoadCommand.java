@@ -14,15 +14,21 @@ import program.PainterProgram;
 import shapes.Figure;
 import program.History;
 
-public class LoadCommando implements Command{
+public class LoadCommand implements Command{
 
     private final String fileName = "resources/Fileio.txt";
     private PainterProgram painter;
     private List<Figure> figures;
 
-    public LoadCommando(PainterProgram painter){
+    public LoadCommand(PainterProgram painter){
         this.painter = painter;
         this.figures = new ArrayList<>();
+    }
+
+    public static List<Figure> loadFigures() {
+        List<Figure> loadedFigures = new ArrayList<>();
+
+        return loadedFigures;
     }
 
     @Override

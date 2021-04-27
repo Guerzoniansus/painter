@@ -7,26 +7,24 @@ public class ResizeFigureVisitor implements Visitor {
 
     protected final int MINIMUM_SIZE = 10;
 
-    private final double POSITIVE_RESIZE_FACTOR = 1.1;
-    private final double NEGATIVE_RESIZE_FACTOR = 0.9;
-    private final double factor;
+    private final int amount;
 
     /**
      * A visitor for resizing factors
-     * @param factor The factor with which to resize the figure
+     * @param amount The amount with which to resize the figure
      */
-    public ResizeFigureVisitor(double factor) {
-        this.factor = factor;
+    public ResizeFigureVisitor(int amount) {
+        this.amount = amount;
     }
 
     @Override
     public void visit(Shape shape) {
         // Calculate new width and height
-        final double newWidth = shape.getWidth() * factor;
-        final double newHeight = shape.getHeight() * factor;
+        final int newWidth = shape.getWidth() + amount;
+        final int newHeight = shape.getHeight() + amount;
 
         // Prevent shapes from becoming impossibly small
-        if (factor < 1) {
+        if (amount < 1) {
             if (newWidth < MINIMUM_SIZE || newHeight < MINIMUM_SIZE) {
                 return;
             }

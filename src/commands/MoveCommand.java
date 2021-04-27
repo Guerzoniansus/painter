@@ -10,10 +10,10 @@ import java.util.List;
 
 public class MoveCommand implements Command{
 
-    private PainterProgram painter;
-    private List<Figure> figures;
-    private double horizontalDistance;
-    private double verticalDistance;
+    private final PainterProgram painter;
+    private final List<Figure> figures;
+    private final int horizontalDistance;
+    private final int verticalDistance;
 
     /**
      * A command for moving objects around
@@ -22,7 +22,7 @@ public class MoveCommand implements Command{
      * @param horizontalDistance The horizontal distance to move
      * @param verticalDistance The vertical distance to move
      */
-    public MoveCommand(PainterProgram painter, List<Figure> figures, double horizontalDistance, double verticalDistance ){
+    public MoveCommand(PainterProgram painter, List<Figure> figures, int horizontalDistance, int verticalDistance ){
         this.painter = painter;
         this.figures = figures;
         this.horizontalDistance = horizontalDistance;

@@ -7,49 +7,24 @@ import visitors.Visitor;
  */
 public abstract class Shape implements Figure {
 
-    protected double x, y, width, height;
+    protected int x, y, width, height;
 
-    protected final int MINIMUM_SIZE = 5;
-
-    Shape(double x, double y, double width, double height) {
+    Shape(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    @Override
-    public void resize(double amount) {
-        final double newWidth = (int) (width + amount);
-        final double newHeight = (int) (height + amount);
-
-        // Prevent shapes from becoming impossibly small
-        if (amount < 0) {
-            if (newWidth < MINIMUM_SIZE || newHeight < MINIMUM_SIZE) {
-                return;
-            }
-        }
-
-        width = newWidth;
-        height = newHeight;
-    }
-
-    @Override
-    public void move(int horizontalDistance, int verticalDistance) {
-        x += horizontalDistance;
-        y += verticalDistance;
-    }
-
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
-
 
     /**
      * Get X
      * @return X
      */
-    public double getX() {
+    public int getX() {
         return x;
     }
 
@@ -57,7 +32,7 @@ public abstract class Shape implements Figure {
      * Get Y
      * @return Y
      */
-    public double getY() {
+    public int getY() {
         return y;
     }
 
@@ -65,7 +40,7 @@ public abstract class Shape implements Figure {
      * Set the X
      * @param newX The new X
      */
-    public void setX(double newX) {
+    public void setX(int newX) {
         this.x = newX;
     }
 
@@ -73,7 +48,7 @@ public abstract class Shape implements Figure {
      * Set the Y
      * @param newY The new Y
      */
-    public void setY(double newY) {
+    public void setY(int newY) {
         this.y = newY;
     }
 
@@ -81,7 +56,7 @@ public abstract class Shape implements Figure {
      * Get this shape's width
      * @return The width
      */
-    public double getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -89,7 +64,7 @@ public abstract class Shape implements Figure {
      * Get this shape's height
      * @return The height
      */
-    public double getHeight() {
+    public int getHeight() {
         return height;
     }
 
@@ -97,7 +72,7 @@ public abstract class Shape implements Figure {
      * Set the new width
      * @param width The new width
      */
-    public void setWidth(double width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
@@ -105,7 +80,7 @@ public abstract class Shape implements Figure {
      * Set the new height
      * @param height The new height
      */
-    public void setHeight(double height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
