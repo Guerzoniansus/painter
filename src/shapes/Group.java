@@ -1,6 +1,7 @@
 package shapes;
 
 import program.PainterProgram;
+import visitors.Visitor;
 
 import java.awt.*;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Group implements Figure {
     private PainterProgram painter;
 
     public Group(List<Figure> figures, PainterProgram painter) {
+        this.painter = painter;
         this.figures = figures;
         this.count = figures.size();
     }
@@ -28,12 +30,8 @@ public class Group implements Figure {
      * Returns the amount of figures in this group, not counting ornaments or other groups
      * @return The amount of figures in this group
      */
-    public int getSize() {
-        return figures.size();
-    }
-
     public int getCount(){
-        return count;
+        return figures.size();
     }
 
     public List<Figure> getFigures(){
@@ -46,8 +44,8 @@ public class Group implements Figure {
     }
 
     @Override
-    public void resize(double factor) {
-        figures.forEach(figure -> figure.resize(factor));
+    public void resize(double amount) {
+        figures.forEach(figure -> figure.resize(amount));
     }
 
     @Override
@@ -61,7 +59,7 @@ public class Group implements Figure {
     }
 
     @Override
-    public boolean contains(int x, int y) {
+    public boolean contains(double x, double y) {
         for (Figure figure : figures) {
             if (figure.contains(x, y)) {
                 return true;
@@ -69,6 +67,11 @@ public class Group implements Figure {
         }
 
         return false;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package shapes;
 
+import visitors.Visitor;
+
 import java.awt.*;
 
 public interface Figure {
@@ -15,9 +17,9 @@ public interface Figure {
 
     /**
      * Resize this figure
-     * @param factor The factor with which to multiple the original size
+     * @param amount The factor with which to multiple the original size
      */
-    void resize(double factor);
+    void resize(double amount);
 
     /**
      * Move this figure a certain distance. Use negative numbers to move to the top left.
@@ -37,7 +39,13 @@ public interface Figure {
      * @param y The y coordinate of the point
      * @return True if the point is inside this figure, false if not
      */
-    boolean contains(int x, int y);
+    boolean contains(double x, double y);
+
+    /**
+     * Accept a visitor
+     * @param visitor The visitor to accept
+     */
+    void accept(Visitor visitor);
 
     String getName();
 

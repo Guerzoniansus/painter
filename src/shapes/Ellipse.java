@@ -7,17 +7,15 @@ import java.awt.*;
  */
 public class Ellipse extends Shape {
 
-    private boolean showingBorder;
 
-    public Ellipse(int x, int y, int width, int height) {
+    public Ellipse(double x, double y, double width, double height) {
         super(x, y, width, height);
-        showingBorder = false;
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(FILL_COLOR);
-        g.fillOval(x, y, width, height);
+        g.fillOval((int) x, (int) y, (int) width, (int) height);
     }
 
     @Override
@@ -32,14 +30,14 @@ public class Ellipse extends Shape {
         g2d.setStroke(dashed);
 
         // Draw to the copy
-        g2d.drawOval(x, y, width, height);
+        g2d.drawOval((int) x, (int) y, (int) width, (int) height);
 
         // Get rid of the copy
         g2d.dispose();
     }
 
     @Override
-    public boolean contains(int x, int y) {
+    public boolean contains(double x, double y) {
         return new java.awt.geom.Ellipse2D.Double(this.x, this.y, width, height).contains(x, y);
     }
 

@@ -6,6 +6,8 @@ import commands.MoveCommand;
 import commands.ResizeCommand;
 import program.PainterProgram;
 import shapes.Figure;
+import visitors.MoveFigureVisitor;
+import visitors.Visitor;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,15 +23,20 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
     private final int LEFT_MOUSE_BUTTON = 1;
     private final int GROUP_BUTTON = 71; // the G key
 
-    private final double RESIZE_FACTOR = 30;
+    private final double POSITIVE_RESIZE_FACTOR = 1.1;
+    private final double NEGATIVE_RESIZE_FACTOR = 0.9;
 
     private List<Figure> selectedFigures;
+
+    // Used for moving shapes around
+    private Point originalMousePoint;
     private Point previousMousePoint;
 
     protected ToolSelect(PainterProgram painter) {
         super(painter);
         selectedFigures = new ArrayList<>();
         previousMousePoint = null;
+        originalMousePoint = null;
     }
 
     @Override
@@ -47,6 +54,8 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
 
     @Override
     public void deActivate() {
+        previousMousePoint = null;
+        originalMousePoint = null;
         selectedFigures.clear();
         painter.removeMouseListener(this);
         painter.removeMouseWheelListener(this);
@@ -77,12 +86,20 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
     }
 
     /**
+     * Checks if any figures are selected
+     * @return True if 1 or more figures are selected, false otherwise
+     */
+    private boolean areFiguresSelected() {
+        return selectedFigures.size() > 0;
+    }
+
+    /**
      * Checks if a coordinate is on top of a figure
      * @param x The x coordinate
      * @param y The y coordinate
      * @return True if on top of a figure, false if not
      */
-    private boolean isPointOnAFigure(int x, int y) {
+    private boolean isPointOnAFigure(double x, double y) {
         for (Figure figure : painter.getFigures()) {
             if (figure.contains(x, y)) {
                 return true;
@@ -92,14 +109,6 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
         return false;
     }
 
-    /**
-     * Checks if any figures are selected
-     * @return True if 1 or more figures are selected, false otherwise
-     */
-    private boolean areFiguresSelected() {
-        return selectedFigures.size() > 0;
-    }
-
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         /* ===== Resizing ===== */
@@ -107,9 +116,10 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
         if (areFiguresSelected()) {
             // If wheel rotation < 0, it means user scrolled UP, which means INCREASE size
             // If wheel rotation >= 0, it means user scrolled DOWN, which means DECREASE size (NEGATIVE factor)
-            boolean increaseIfTrueDecreaseIfFalse = e.getWheelRotation() < 0 ? true : false;
+            boolean growIfTrueShrinkIfFalse = e.getWheelRotation() < 0 ? true : false;
+
             // Use negative factor when decreasing size
-            final double factor = increaseIfTrueDecreaseIfFalse == true ? RESIZE_FACTOR : 0 - RESIZE_FACTOR;
+            final double factor = growIfTrueShrinkIfFalse == true ? POSITIVE_RESIZE_FACTOR : NEGATIVE_RESIZE_FACTOR;
             ResizeCommand resizeCommand = new ResizeCommand(painter, factor, selectedFigures);
             painter.executeCommand(resizeCommand);
         }
@@ -140,13 +150,18 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        /* ===== Creating a shape by dragging mouse ===== */
+        // Move shape
         if (previousMousePoint != null) {
-            int horizontalDistance = (int) (e.getPoint().getX() - previousMousePoint.getX());
-            int verticalDistance = (int) (e.getPoint().getY() - previousMousePoint.getY());
+            double horizontalDistance = e.getPoint().getX() - previousMousePoint.getX();
+            double verticalDistance = e.getPoint().getY() - previousMousePoint.getY();
+
+            // Move them so user can see feedback
+            Visitor visitor = new MoveFigureVisitor(horizontalDistance, verticalDistance);
+            selectedFigures.forEach(figure -> figure.accept(visitor));
+
             previousMousePoint = e.getPoint();
-            MoveCommand moveCommand = new MoveCommand(painter, selectedFigures, horizontalDistance, verticalDistance);
-            painter.executeCommand(moveCommand);
+            painter.repaint();
+
         }
     }
 
@@ -154,15 +169,31 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
     @Override
     public void mousePressed(MouseEvent e) {
         /* ===== Set starting point for moving a shape ===== */
-        if (isPointOnAFigure((int) e.getPoint().getX(), (int) e.getPoint().getY())) {
+        if (isPointOnAFigure( e.getPoint().getX(), e.getPoint().getY())) {
             previousMousePoint = e.getPoint();
+            originalMousePoint = previousMousePoint;
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        /* ===== Remove starting point for moving a shape ===== */
-        previousMousePoint = null;
+        if (previousMousePoint != null) {
+            // Calculate total distance moved
+            double totalDistanceHorizontal = e.getPoint().getX() - originalMousePoint.getX();
+            double totalDistanceVertical = e.getPoint().getY() - originalMousePoint.getY();
+
+            // First reset figures back to their original position
+            Visitor visitor = new MoveFigureVisitor(totalDistanceHorizontal * -1, totalDistanceVertical * - 1);
+            selectedFigures.forEach(figure -> figure.accept(visitor));
+
+            // then do the entire movement that can be undo'd
+            MoveCommand moveCommand = new MoveCommand(painter, selectedFigures, totalDistanceHorizontal, totalDistanceVertical);
+            painter.executeCommand(moveCommand);
+
+            //  Reset starting point for moving a shape
+            previousMousePoint = null;
+            originalMousePoint = null;
+        }
     }
 
     @Override

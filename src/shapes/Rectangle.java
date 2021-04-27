@@ -7,14 +7,14 @@ import java.awt.*;
  */
 public class Rectangle extends Shape {
 
-    public Rectangle(int x, int y, int width, int height) {
+    public Rectangle(double x, double y, double width, double height) {
         super(x, y, width, height);
     }
 
     @Override
     public void draw(Graphics g) {
         g.setColor(FILL_COLOR);
-        g.fillRect(x, y, width, height);
+        g.fillRect((int) x, (int) y, (int) width, (int) height);
     }
 
     public void drawSelectionBorder(Graphics g) {
@@ -29,15 +29,15 @@ public class Rectangle extends Shape {
         g2d.setStroke(dashed);
 
         // Draw to the copy
-        g2d.drawRect(x, y, width, height);
+        g2d.drawRect((int) x, (int) y, (int) width, (int) height);
 
         // Get rid of the copy
         g2d.dispose();
     }
 
     @Override
-    public boolean contains(int x, int y) {
-        return new java.awt.Rectangle(this.x, this.y, width, height).contains(x, y);
+    public boolean contains(double x, double y) {
+        return new java.awt.Rectangle((int) this.x, (int) this.y, (int) width, (int) height).contains(x, y);
     }
 
     @Override
