@@ -3,7 +3,6 @@ package commands;
 import program.PainterProgram;
 import shapes.Figure;
 import shapes.Group;
-import program.History;
 
 import java.util.List;
 
@@ -22,13 +21,14 @@ public class CreateGroupCommand implements Command {
     @Override
     public void execute(){
         figures.forEach(figure -> painter.removeFigure(figure));
-        group = new Group(figures, painter);
+        group = new Group(figures);
         painter.addFigure(group);   
     }
 
     @Override
     public void undo() {
-        group.undoGroup();
+        painter.removeFigure(group);
+        figures.forEach(figure -> painter.addFigure(figure));
     }
 
     /**

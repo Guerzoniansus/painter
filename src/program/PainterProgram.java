@@ -39,6 +39,7 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
         figures = new ArrayList();
         history = new History();
 
+        // Initialisation stuff
         this.setLayout(null);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
@@ -46,13 +47,16 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
         this.setDoubleBuffered(true);
         this.setFocusable(true);
 
+        // Make tools ready to use
         Tool.createTools(this);
         setActiveTool(Tool.TOOL_SELECT);
 
+        // Create GUI
         gui = new GUI(this);
         gui.getButtons().forEach(button -> this.add(button));
         gui.updateActiveTool(currentTool);
 
+        // Update screen
         repaint();
     }
 
@@ -129,12 +133,48 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     }
 
     /**
+     * Save the current screen to file
+     */
+    public void save() {
+        SaveCommand saveCommand = new SaveCommand(this, figures);
+        executeCommand(saveCommand);
+    }
+
+    /**
+     * Replace the screen by loading a figure from file
+     */
+    public void load() {
+        LoadCommand loadCommand = new LoadCommand(this);
+        executeCommand(loadCommand);
+    }
+
+    /**
      * Execute a command and save it in the history
      * @param command The command to execute
      */
     public void executeCommand(Command command) {
         command.execute();
         history.addCommand(command);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        switch (e.getKeyCode()) {
+            case UNDO_BUTTON:
+                undo();
+                break;
+            case REDO_BUTTON:
+                redo();
+                break;
+            case SAVE_BUTTON:
+                save();
+                break;
+            case LOAD_BUTTON:
+                load();
+                break;
+
+        }
     }
 
     @Override
@@ -173,25 +213,6 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     @Override
     public void keyTyped(KeyEvent e) {
 
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == UNDO_BUTTON) {
-            undo();
-        }
-        else if (e.getKeyCode() == REDO_BUTTON) {
-            redo();
-        }
-        else if (e.getKeyCode() == SAVE_BUTTON) {
-            SaveCommand saveCommand = new SaveCommand(this, figures);
-            executeCommand(saveCommand);
-        }
-        else if (e.getKeyCode() == LOAD_BUTTON) {
-            LoadCommand loadCommand = new LoadCommand(this);
-            executeCommand(loadCommand);
-        }
-        
     }
 
     @Override

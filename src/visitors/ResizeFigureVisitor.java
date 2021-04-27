@@ -5,12 +5,12 @@ import shapes.Shape;
 
 public class ResizeFigureVisitor implements Visitor {
 
-    protected final int MINIMUM_SIZE = 10;
+    private final int MINIMUM_SIZE = 10;
 
     private final int amount;
 
     /**
-     * A visitor for resizing factors
+     * A visitor for resizing figures
      * @param amount The amount with which to resize the figure
      */
     public ResizeFigureVisitor(int amount) {

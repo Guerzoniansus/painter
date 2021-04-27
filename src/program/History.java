@@ -8,6 +8,10 @@ import java.util.List;
 public class History {
 
     private List<Command> historyCommands;
+
+    /**
+     * Commands that undo() has been used on (and that redo() can be used on)
+     */
     private List<Command> undoneCommands;
 
     public History() {
@@ -20,13 +24,16 @@ public class History {
      */
     public void undo() {
         if (historyCommands.size() > 0){
+            // Undo last command
             Command command = historyCommands.get(historyCommands.size() -1);
             command.undo();
+
+            // Update the history lists
             historyCommands.remove(command);
             undoneCommands.add(command);
+
+            System.out.println("Undo " + command.getClass().getSimpleName());
         }
-        else 
-            return;
     }
 
     /**
@@ -34,13 +41,16 @@ public class History {
      */
     public void redo() {
         if (undoneCommands.size() > 0){
+            // Execute the last undone command
             Command command = undoneCommands.get(undoneCommands.size() -1);
             command.execute();
+
+            // Update the history lists
             historyCommands.add(command);
             undoneCommands.remove(command);
+
+            System.out.println("Redo " + command.getClass().getSimpleName());
         }
-        else 
-            return;
     }
 
     /**

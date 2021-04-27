@@ -1,13 +1,10 @@
 package visitors;
 
-import program.PainterProgram;
-import shapes.Figure;
 import shapes.Group;
 import shapes.Shape;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 public class SaveFigureVisitor implements Visitor {
 
@@ -58,6 +55,7 @@ public class SaveFigureVisitor implements Visitor {
             writer.write(whiteSpace + "group " + group.getCount());
             writer.write("\n");
 
+            // Add indent, save each figure in the group, then reset the indent
             whiteSpace += "  ";
             group.getFigures().forEach(figure -> figure.accept(this));
             whiteSpace = whiteSpace.substring(0, whiteSpace.length() - 2);

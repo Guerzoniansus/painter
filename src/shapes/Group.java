@@ -1,6 +1,5 @@
 package shapes;
 
-import program.PainterProgram;
 import visitors.Visitor;
 
 import java.awt.*;
@@ -9,19 +8,9 @@ import java.util.List;
 public class Group implements Figure {
 
     private List<Figure> figures;
-    private PainterProgram painter;
 
-    public Group(List<Figure> figures, PainterProgram painter) {
-        this.painter = painter;
+    public Group(List<Figure> figures) {
         this.figures = figures;
-    }
-
-    /**
-     * Destroys this group, separating all figures into individual figures again
-     */
-    public void undoGroup() {
-        painter.removeFigure(this);
-        figures.forEach(figure -> painter.addFigure(figure));
     }
 
     /**
