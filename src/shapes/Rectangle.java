@@ -2,19 +2,23 @@ package shapes;
 
 import java.awt.*;
 
+import strategy.RectangleStrategy;
+
 /**
  * A simple rectangle
  */
 public class Rectangle extends Shape {
 
+    RectangleStrategy rectangleStrategy;
+
     public Rectangle(int x, int y, int width, int height) {
         super(x, y, width, height);
+        rectangleStrategy = new RectangleStrategy();
     }
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(FILL_COLOR);
-        g.fillRect(x, y, width, height);
+        rectangleStrategy.draw(g, this);
     }
 
     public void drawSelectionBorder(Graphics g) {
@@ -42,6 +46,6 @@ public class Rectangle extends Shape {
 
     @Override
     public String getName(){
-        return "rectangle";
+       return rectangleStrategy.toString(this);
     }
 }

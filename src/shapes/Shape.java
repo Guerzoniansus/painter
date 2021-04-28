@@ -1,5 +1,6 @@
 package shapes;
 
+import strategy.ShapeStrategy;
 import visitors.Visitor;
 
 /**
@@ -8,6 +9,8 @@ import visitors.Visitor;
 public abstract class Shape implements Figure {
 
     protected int x, y, width, height;
+
+    ShapeStrategy shapeStrategy;
 
     Shape(int x, int y, int width, int height) {
         this.x = x;
@@ -82,6 +85,10 @@ public abstract class Shape implements Figure {
      */
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public void setStrategy(ShapeStrategy strategy){
+        shapeStrategy = strategy;
     }
 
 }
