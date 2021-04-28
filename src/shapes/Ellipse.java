@@ -11,12 +11,12 @@ public class Ellipse extends Shape {
 
     public Ellipse(int x, int y, int width, int height) {
         super(x, y, width, height);
-        this.shapeStrategy = EllipseStrategy.getInstance();
+        shapeStrategy = EllipseStrategy.getInstance();
     }
 
     @Override
     public void draw(Graphics g) {
-        this.shapeStrategy.draw(g, this);
+        shapeStrategy.draw(g, this);
     }
 
     @Override
@@ -44,6 +44,6 @@ public class Ellipse extends Shape {
 
     @Override
     public String getName(){
-        return this.shapeStrategy.toString(this);
+        return shapeStrategy.toString(this);
     }
 }

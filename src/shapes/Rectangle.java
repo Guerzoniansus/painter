@@ -11,12 +11,12 @@ public class Rectangle extends Shape {
 
     public Rectangle(int x, int y, int width, int height) {
         super(x, y, width, height);
-        this.shapeStrategy = RectangleStrategy.getInstance();
+        shapeStrategy = RectangleStrategy.getInstance();
     }
 
     @Override
     public void draw(Graphics g) {
-        this.shapeStrategy.draw(g, this);
+        shapeStrategy.draw(g, this);
     }
 
     public void drawSelectionBorder(Graphics g) {
@@ -44,6 +44,6 @@ public class Rectangle extends Shape {
 
     @Override
     public String getName(){
-       return this.shapeStrategy.toString(this);
+       return shapeStrategy.toString(this);
     }
 }

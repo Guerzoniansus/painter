@@ -9,6 +9,11 @@ public class RectangleStrategy implements ShapeStrategy{
 
     private RectangleStrategy(){}
 
+    /**
+     * Get instance
+     * @return instance
+     */
+
     public static RectangleStrategy getInstance()
     {
         return instance;
