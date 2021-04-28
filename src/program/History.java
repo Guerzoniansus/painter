@@ -60,4 +60,16 @@ public class History {
     public void addCommand(Command command) {
         historyCommands.add(command);
     }
+
+    /**
+     * Get the last used command
+     * @return The last used command, or null if no command has been done yet
+     */
+    public Command getLastCommand() {
+        if (historyCommands.size() > 0) {
+            return historyCommands.get(historyCommands.size() - 1);
+        }
+
+        else return null;
+    }
 }

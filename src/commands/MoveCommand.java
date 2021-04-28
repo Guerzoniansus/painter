@@ -45,4 +45,9 @@ public class MoveCommand implements Command{
 
         painter.repaint();
     }
+
+    @Override
+    public String getName() {
+        return "Move";
+    }
 }

@@ -31,6 +31,11 @@ public class CreateGroupCommand implements Command {
         figures.forEach(figure -> painter.addFigure(figure));
     }
 
+    @Override
+    public String getName() {
+        return "Create Group (" + figures.size() + " figures)";
+    }
+
     /**
      * Get the group that was created by this command's execute command
      * Returns null if no group has been made yet

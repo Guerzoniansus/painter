@@ -25,4 +25,9 @@ public class DrawShapeCommand implements Command{
         painter.repaint();
     }
 
+    @Override
+    public String getName() {
+        return "Draw " + shape.getName();
+    }
+
 }

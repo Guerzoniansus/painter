@@ -78,14 +78,34 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Don't remove this line
         currentTool.onDraw(g);
+        drawLastCommand(g);
         drawFigures(g);
+
     }
 
+    /**
+     * Draw all figures on the screen
+     * @param g The graphics object to draw to
+     */
     public void drawFigures(Graphics g) {
         for (Figure figure : figures) {
             figure.draw(g);
         }
     }
+
+    /**
+     * Function that draws the last used command
+     * @param g The graphics object to draw to
+     */
+    private void drawLastCommand(Graphics g) {
+        String lastCommand = history.getLastCommand() != null ?
+                history.getLastCommand().getName() : "";
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+        g.drawString("Last action: " + lastCommand, 300, 30);
+    }
+
     /**
      * Add a figure to the list of figures
      * @param figure The figure to add

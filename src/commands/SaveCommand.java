@@ -42,6 +42,11 @@ public class SaveCommand implements Command{
         saver.close();
     }
 
+    @Override
+    public String getName() {
+        return "Save";
+    }
+
     /*
     @Override
     public void execute() {

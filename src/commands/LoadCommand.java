@@ -40,4 +40,9 @@ public class LoadCommand implements Command{
         painter.repaint();
     }
 
+    @Override
+    public String getName() {
+        return "Load";
+    }
+
 }

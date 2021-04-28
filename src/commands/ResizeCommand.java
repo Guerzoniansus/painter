@@ -53,4 +53,9 @@ public class ResizeCommand implements Command {
         figures.forEach(figure -> figure.accept(visitor));
         painter.repaint();
     }
+
+    @Override
+    public String getName() {
+        return "Resize";
+    }
 }
