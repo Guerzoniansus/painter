@@ -9,16 +9,14 @@ import strategy.RectangleStrategy;
  */
 public class Rectangle extends Shape {
 
-    RectangleStrategy rectangleStrategy;
-
     public Rectangle(int x, int y, int width, int height) {
         super(x, y, width, height);
-        rectangleStrategy = new RectangleStrategy();
+        this.shapeStrategy = RectangleStrategy.getInstance();
     }
 
     @Override
     public void draw(Graphics g) {
-        rectangleStrategy.draw(g, this);
+        this.shapeStrategy.draw(g, this);
     }
 
     public void drawSelectionBorder(Graphics g) {
@@ -46,6 +44,6 @@ public class Rectangle extends Shape {
 
     @Override
     public String getName(){
-       return rectangleStrategy.toString(this);
+       return this.shapeStrategy.toString(this);
     }
 }

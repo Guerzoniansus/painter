@@ -14,5 +14,10 @@ public interface ShapeStrategy {
 
     void draw (Graphics g, Shape shape);
 
+    /**
+     * Return the name of the shape
+     * @param shape The shape to return the name of
+     */
+
     String toString(Shape shape);
 }

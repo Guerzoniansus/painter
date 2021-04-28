@@ -10,7 +10,7 @@ public abstract class Shape implements Figure {
 
     protected int x, y, width, height;
 
-    ShapeStrategy shapeStrategy;
+    protected ShapeStrategy shapeStrategy;
 
     Shape(int x, int y, int width, int height) {
         this.x = x;
@@ -87,6 +87,10 @@ public abstract class Shape implements Figure {
         this.height = height;
     }
 
+    /**
+     * Set the new strategy
+     * @param strategy The new strategy
+     */
     public void setStrategy(ShapeStrategy strategy){
         shapeStrategy = strategy;
     }

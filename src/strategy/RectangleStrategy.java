@@ -5,23 +5,12 @@ import java.awt.*;
 
 public class RectangleStrategy implements ShapeStrategy{
 
-    private static volatile RectangleStrategy instance = null;
+    private static RectangleStrategy instance = new RectangleStrategy();
 
-    public RectangleStrategy() {}
+    private RectangleStrategy(){}
 
     public static RectangleStrategy getInstance()
     {
-        if (instance == null)
-        {
-            // To make thread safe
-            synchronized (RectangleStrategy.class)
-            {
-                // check again as multiple threads
-                // can reach above step
-                if (instance==null)
-                instance = new RectangleStrategy();
-            }
-        }
         return instance;
     }
     

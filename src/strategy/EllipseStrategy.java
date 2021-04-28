@@ -5,23 +5,12 @@ import java.awt.*;
 
 public class EllipseStrategy implements ShapeStrategy{
 
-    private static volatile EllipseStrategy instance = null;
+    private static EllipseStrategy instance = new EllipseStrategy();
 
-    public EllipseStrategy(){}
+    private EllipseStrategy(){}
 
-    public EllipseStrategy getInstance()
+    public static EllipseStrategy getInstance()
     {
-        if (instance == null)
-        {
-            // To make thread safe
-            synchronized (EllipseStrategy.class)
-            {
-                // check again as multiple threads
-                // can reach above step
-                if (instance==null)
-                instance = new EllipseStrategy();
-            }
-        }
         return instance;
     }
     

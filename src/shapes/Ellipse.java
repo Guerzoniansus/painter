@@ -9,16 +9,14 @@ import strategy.EllipseStrategy;
  */
 public class Ellipse extends Shape {
 
-    EllipseStrategy ellipseStrategy;
-
     public Ellipse(int x, int y, int width, int height) {
         super(x, y, width, height);
-        ellipseStrategy = new EllipseStrategy();
+        this.shapeStrategy = EllipseStrategy.getInstance();
     }
 
     @Override
     public void draw(Graphics g) {
-        ellipseStrategy.draw(g, this);
+        this.shapeStrategy.draw(g, this);
     }
 
     @Override
@@ -46,6 +44,6 @@ public class Ellipse extends Shape {
 
     @Override
     public String getName(){
-        return ellipseStrategy.toString(this);
+        return this.shapeStrategy.toString(this);
     }
 }

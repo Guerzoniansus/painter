@@ -1,0 +1,6 @@
+group 5
+  rectangle 178 199 522 401
+  rectangle 769 367 222 227
+  rectangle 726 720 141 125
+  rectangle 1018 683 128 110
+  rectangle 242 718 289 169
