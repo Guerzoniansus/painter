@@ -136,7 +136,7 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
      * Save the current screen to file
      */
     public void save() {
-        SaveCommand saveCommand = new SaveCommand(this, figures);
+        SaveCommand saveCommand = new SaveCommand(figures);
         executeCommand(saveCommand);
     }
 

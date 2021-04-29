@@ -1,7 +1,6 @@
 package commands;
 
 import shapes.Figure;
-import program.History;
 import program.PainterProgram;
 import visitors.MoveFigureVisitor;
 import visitors.Visitor;

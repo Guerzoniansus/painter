@@ -21,6 +21,10 @@ public class Group implements Figure {
         return figures.size();
     }
 
+    /**
+     * Returns the figures in this group
+     * @return The figures in this group
+     */
     public List<Figure> getFigures(){
         return figures;
     }

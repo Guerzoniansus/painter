@@ -9,7 +9,6 @@ import shapes.Figure;
 
 public class LoadCommand implements Command{
 
-    private final String fileName = "resources/Fileio.txt";
     private PainterProgram painter;
     private List<Figure> oldFigures;
 

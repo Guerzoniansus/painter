@@ -1,6 +1,5 @@
 package tools;
 
-import commands.Command;
 import commands.CreateGroupCommand;
 import commands.MoveCommand;
 import commands.ResizeCommand;

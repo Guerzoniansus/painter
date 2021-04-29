@@ -9,6 +9,11 @@ public class EllipseStrategy implements ShapeStrategy{
 
     private EllipseStrategy(){}
 
+    /**
+     * Get instance
+     * @return instance
+     */
+
     public static EllipseStrategy getInstance()
     {
         return instance;
