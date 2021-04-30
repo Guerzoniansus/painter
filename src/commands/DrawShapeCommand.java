@@ -1,6 +1,5 @@
 package commands;
 import shapes.Shape;
-import program.History;
 import program.PainterProgram;
 
 public class DrawShapeCommand implements Command{

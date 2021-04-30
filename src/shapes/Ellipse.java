@@ -2,6 +2,8 @@ package shapes;
 
 import java.awt.*;
 
+import strategy.EllipseStrategy;
+
 /**
  * A simple ellipse
  */
@@ -9,12 +11,12 @@ public class Ellipse extends Shape {
 
     public Ellipse(int x, int y, int width, int height) {
         super(x, y, width, height);
+        shapeStrategy = EllipseStrategy.getInstance();
     }
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(FILL_COLOR);
-        g.fillOval(x, y, width, height);
+        shapeStrategy.draw(g, this);
     }
 
     @Override
@@ -42,6 +44,6 @@ public class Ellipse extends Shape {
 
     @Override
     public String getName(){
-        return "ellipse";
+        return shapeStrategy.toString(this);
     }
 }
