@@ -1,6 +1,5 @@
 package tools;
 
-import commands.Command;
 import commands.CreateGroupCommand;
 import commands.MoveCommand;
 import commands.ResizeCommand;
@@ -43,19 +42,27 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
         selectedFigures.forEach(figure -> figure.drawSelectionBorder(g));
     }
 
+    /**
+     * Get a list of figures selected by this tool. This tool keeps selection in memory even when not active.
+     * @return A list of selected figures
+     */
+    public List<Figure> getSelectedFigures() {
+        return selectedFigures;
+    }
+
     @Override
     public void activate() {
         painter.addMouseListener(this);
         painter.addMouseMotionListener(this);
         painter.addMouseWheelListener(this);
         painter.addKeyListener(this);
+        selectedFigures.clear();
     }
 
     @Override
     public void deActivate() {
         previousMousePoint = null;
         originalMousePoint = null;
-        selectedFigures.clear();
         painter.removeMouseListener(this);
         painter.removeMouseWheelListener(this);
         painter.removeMouseMotionListener(this);

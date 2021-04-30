@@ -1,10 +1,7 @@
 package gui;
 
 import program.PainterProgram;
-import tools.Tool;
-import tools.ToolEllipse;
-import tools.ToolRectangle;
-import tools.ToolSelect;
+import tools.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,13 +36,13 @@ public class GUI {
     private void createButtons() {
         ButtonGenerator grid = new ButtonGenerator(STARTING_X, STARTING_Y, BUTTON_SIZE, NUMBER_OF_COLS);
 
-        ToolButton selectButton = grid.generateButton(Tool.TOOL_SELECT, IMAGE_PATH + "pointer.png", this);
+        ToolButton selectButton = grid.generateButton(Tools.TOOL_SELECT, IMAGE_PATH + "pointer.png", this);
         buttons.put(selectButton.getTool(), selectButton);
 
-        ToolButton rectangleButton = grid.generateButton(Tool.TOOL_RECTANGLE, IMAGE_PATH + "square.png", this);
+        ToolButton rectangleButton = grid.generateButton(Tools.TOOL_RECTANGLE, IMAGE_PATH + "square.png", this);
         buttons.put(rectangleButton.getTool(), rectangleButton);
 
-        ToolButton ellipseButton = grid.generateButton(Tool.TOOL_ELLIPSE, IMAGE_PATH + "circle.png", this);
+        ToolButton ellipseButton = grid.generateButton(Tools.TOOL_ELLIPSE, IMAGE_PATH + "circle.png", this);
         buttons.put(ellipseButton.getTool(), ellipseButton);
     }
 

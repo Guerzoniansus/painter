@@ -18,23 +18,6 @@ public abstract class Tool implements MouseListener, MouseMotionListener {
     }
 
     /**
-     * Static (constant) tool objects, there's no need to constantly make new objects
-     */
-    public static Tool TOOL_SELECT;
-    public static Tool TOOL_RECTANGLE;
-    public static Tool TOOL_ELLIPSE;
-
-    /**
-     * Create all tools
-     * @param painter The painter program
-     */
-    public static void createTools(PainterProgram painter) {
-        TOOL_SELECT = new ToolSelect(painter);
-        TOOL_RECTANGLE = new ToolRectangle(painter);
-        TOOL_ELLIPSE = new ToolEllipse(painter);
-    }
-
-    /**
      * The function that gets called when the program redraws the screen. Used for painting things
      * @param g The graphics object to draw to
      */

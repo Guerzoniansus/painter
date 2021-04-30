@@ -4,6 +4,7 @@ import commands.*;
 import gui.GUI;
 import shapes.Figure;
 import tools.Tool;
+import tools.Tools;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,11 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     private static final int WINDOW_HEIGHT = 975;
     public static final String SAVE_FILE_PATH = "resources/shape.txt";
 
+    private final int UNDO_BUTTON = 90; // Z key
+    private final int REDO_BUTTON = 89; // Y key
+    private final int SAVE_BUTTON = 83; // S key
+    private final int LOAD_BUTTON = 76; // L key
+
     private Window window;
 
     private List<Figure> figures;
@@ -28,16 +34,17 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
 
     private History history;
 
-    private final int UNDO_BUTTON = 90; // Z key
-    private final int REDO_BUTTON = 89; // Y key
-    private final int SAVE_BUTTON = 83; // S key
-    private final int LOAD_BUTTON = 76; // L key
+    /**
+     * If false, don't check for keyboard inputs
+     */
+    private boolean acceptKeyboardInput;
     
 
     public PainterProgram() {
         window = new Window(TITLE, WINDOW_WIDTH, WINDOW_HEIGHT, this);
         figures = new ArrayList();
         history = new History();
+        acceptKeyboardInput = true;
 
         // Initialisation stuff
         this.setLayout(null);
@@ -48,8 +55,8 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
         this.setFocusable(true);
 
         // Make tools ready to use
-        Tool.createTools(this);
-        setActiveTool(Tool.TOOL_SELECT);
+        Tools.createTools(this);
+        setActiveTool(Tools.TOOL_SELECT);
 
         // Create GUI
         gui = new GUI(this);
@@ -139,6 +146,22 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     }
 
     /**
+     * Disable the painter program from listening to keyboard inputs.
+     * Tools can still listen to inputs on their own.
+     */
+    public void disableKeyboardInput() {
+        acceptKeyboardInput = false;
+    }
+
+    /**
+     * Enable the painter program for listening to keyboard inputs
+     */
+    public void enableKeyboardInput() {
+        acceptKeyboardInput = true;
+    }
+
+
+    /**
      * Undo the last command
      */
     public void undo() {
@@ -179,21 +202,21 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
 
     @Override
     public void keyPressed(KeyEvent e) {
-
-        switch (e.getKeyCode()) {
-            case UNDO_BUTTON:
-                undo();
-                break;
-            case REDO_BUTTON:
-                redo();
-                break;
-            case SAVE_BUTTON:
-                save();
-                break;
-            case LOAD_BUTTON:
-                load();
-                break;
-
+        if (acceptKeyboardInput) {
+            switch (e.getKeyCode()) {
+                case UNDO_BUTTON:
+                    undo();
+                    break;
+                case REDO_BUTTON:
+                    redo();
+                    break;
+                case SAVE_BUTTON:
+                    save();
+                    break;
+                case LOAD_BUTTON:
+                    load();
+                    break;
+            }
         }
     }
 
