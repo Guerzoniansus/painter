@@ -60,4 +60,50 @@ public class Group implements Figure {
     public String getName(){
         return "group";
     }
+
+    @Override 
+    public int getX(){
+        Shape leftFigure = (Shape)figures.get(0);
+        int x = leftFigure.getX();
+        for (Figure figure : figures) {
+            Shape figur = (Shape)figure;
+            if (x > figur.getX()){
+                x = figur.getX();
+            }
+        }
+        return x;
+    }
+
+    @Override 
+    public int getY(){
+        Shape highestFigure = (Shape)figures.get(0);
+        int y = highestFigure.getY();
+        for (Figure figure : figures) {
+            Shape figur = (Shape)figure;
+            if (y < figur.getY()){
+                highestFigure = figur;
+            }
+        }
+        return y;
+    }
+
+    @Override 
+    public int getWidth(){
+        int width = 0;
+        for (Figure figure : figures) {
+            Shape figur = (Shape)figure;
+            width += figur.getWidth();
+        }
+        return width;
+    }
+
+    @Override 
+    public int getHeight(){
+        int height = 0;
+        for (Figure figure : figures) {
+            Shape figur = (Shape)figure;
+            height += figur.getHeight();
+        }
+        return height;
+    }
 }

@@ -1,5 +1,6 @@
 package visitors;
 
+import decorator.Ornament;
 import shapes.Group;
 import shapes.Shape;
 
@@ -38,5 +39,11 @@ public class ResizeFigureVisitor implements Visitor {
     @Override
     public void visit(Group group) {
         group.getFigures().forEach(figure -> figure.accept(this));
+    }
+
+    @Override
+    public void visit(Ornament ornament) {
+        // TODO Auto-generated method stub
+        
     }
 }

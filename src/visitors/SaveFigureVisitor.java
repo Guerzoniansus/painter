@@ -6,6 +6,8 @@ import shapes.Shape;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import decorator.Ornament;
+
 public class SaveFigureVisitor implements Visitor {
 
     private final String fileName;
@@ -89,5 +91,11 @@ public class SaveFigureVisitor implements Visitor {
         // rectangle 10 20 100 100
         // shape x y width height
         return shape.getName() + " " + shape.getX() +  " " + shape.getY() + " " + shape.getWidth() + " " + shape.getHeight();
+    }
+
+    @Override
+    public void visit(Ornament ornament) {
+        // TODO Auto-generated method stub
+        
     }
 }
