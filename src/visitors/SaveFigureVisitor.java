@@ -96,6 +96,5 @@ public class SaveFigureVisitor implements Visitor {
     @Override
     public void visit(Ornament ornament) {
         // TODO Auto-generated method stub
-        
     }
 }

@@ -18,7 +18,7 @@ public abstract class Shape implements Figure {
         this.width = width;
         this.height = height;
     }
-
+    @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
@@ -27,6 +27,7 @@ public abstract class Shape implements Figure {
      * Get X
      * @return X
      */
+    @Override
     public int getX() {
         return x;
     }
@@ -35,6 +36,7 @@ public abstract class Shape implements Figure {
      * Get Y
      * @return Y
      */
+    @Override
     public int getY() {
         return y;
     }
@@ -59,6 +61,7 @@ public abstract class Shape implements Figure {
      * Get this shape's width
      * @return The width
      */
+    @Override
     public int getWidth() {
         return width;
     }
@@ -67,6 +70,7 @@ public abstract class Shape implements Figure {
      * Get this shape's height
      * @return The height
      */
+    @Override
     public int getHeight() {
         return height;
     }

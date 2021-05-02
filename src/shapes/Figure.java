@@ -34,14 +34,34 @@ public interface Figure {
      */
     void accept(Visitor visitor);
 
+    /**
+     * Get Name
+     * @return Name
+     */
     String getName();
 
+    /**
+     * Get X
+     * @return X
+     */
     int getX();
 
+    /**
+     * Get Y
+     * @return Y
+     */
     int getY();
 
+    /**
+     * Get Width
+     * @return Width
+     */
     int getWidth();
 
+    /**
+     * Get Heigth
+     * @return Heigth
+     */
     int getHeight();
 
 

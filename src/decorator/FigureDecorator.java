@@ -10,6 +10,10 @@ public abstract class FigureDecorator implements Figure {
         this.decoratedFigure = decoratedFigure;
     }
 
+    /**
+     * Get DecoratedFigure
+     * @return DecoratedFigure
+     */
     public Figure getDecoratedFigure() {
         return decoratedFigure;
     }

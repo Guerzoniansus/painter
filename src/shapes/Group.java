@@ -10,6 +10,9 @@ public class Group implements Figure {
     private List<Figure> figures;
 
     public Group(List<Figure> figures) {
+        if (figures.size() == 0) {
+            throw new IllegalArgumentException("Groups can not be empty!");
+        }
         this.figures = figures;
     }
 
@@ -61,49 +64,77 @@ public class Group implements Figure {
         return "group";
     }
 
+    /**
+     * Get X of the leftist figure
+     * @return X of the leftist figure
+     */
     @Override 
     public int getX(){
-        Shape leftFigure = (Shape)figures.get(0);
+        Figure leftFigure = figures.get(0);
         int x = leftFigure.getX();
         for (Figure figure : figures) {
-            Shape figur = (Shape)figure;
-            if (x > figur.getX()){
-                x = figur.getX();
+            if (x > figure.getX()) {
+                leftFigure = figure;
             }
         }
         return x;
     }
 
+    /**
+     * Get Y of the highest figure
+     * @return Y of the highest figure
+     */
     @Override 
     public int getY(){
-        Shape highestFigure = (Shape)figures.get(0);
+        Figure highestFigure = figures.get(0);
         int y = highestFigure.getY();
         for (Figure figure : figures) {
-            Shape figur = (Shape)figure;
-            if (y < figur.getY()){
-                highestFigure = figur;
+            if (y < figure.getY()) {
+                highestFigure = figure;
             }
         }
         return y;
     }
 
+    /**
+     * Gets the smallest and biggest X and subtracts it, and then adds up the width of the figure width the biggest X
+     * @return The sum (width)
+     */
     @Override 
     public int getWidth(){
-        int width = 0;
+        Figure smallestWidthFigure = figures.get(0);
+        Figure biggestWidthFigure = figures.get(0);
+        int smallestX = smallestWidthFigure.getX();
+        int biggestX = biggestWidthFigure.getX();
         for (Figure figure : figures) {
-            Shape figur = (Shape)figure;
-            width += figur.getWidth();
+            if (smallestX > figure.getX()) {
+                smallestWidthFigure = figure;
+            }
+            else if (biggestX < figure.getX()) {
+                biggestWidthFigure = figure;
+            }
         }
-        return width;
+        return ((biggestX - smallestX) + biggestWidthFigure.getWidth());
     }
 
+    /**
+     * Gets the smallest and biggest Y and subtracts it, and then adds up the width of the figure width the biggest Y
+     * @return The sum (heigth)
+     */
     @Override 
     public int getHeight(){
-        int height = 0;
+        Figure smallestHeigthFigure = figures.get(0);
+        Figure biggestHeigthFigure = figures.get(0);
+        int smallestY = smallestHeigthFigure.getY();
+        int biggestY = biggestHeigthFigure.getY();
         for (Figure figure : figures) {
-            Shape figur = (Shape)figure;
-            height += figur.getHeight();
+            if (smallestY > figure.getY()) {
+                smallestHeigthFigure = figure;
+            }
+            else if (biggestY < figure.getY()) {
+                biggestHeigthFigure = figure;
+            }
         }
-        return height;
+        return ((biggestY - smallestY) + biggestHeigthFigure.getHeight());
     }
 }

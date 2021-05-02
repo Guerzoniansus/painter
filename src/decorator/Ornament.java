@@ -16,20 +16,20 @@ public class Ornament extends FigureDecorator{
     private String position;
     private String text;
 
-    public Ornament(String text, String position, Figure decoratorFigure){
-        super(decoratedFigure); //Why is this wrong?
+    public Ornament(String text, String position, Figure decoratedFigure){
+        super(decoratedFigure); 
         this.text = text;
         this.position = position;
     }
 
     @Override
     public void draw(Graphics g) {
-        // TODO Auto-generated method stub
+        decoratedFigure.draw(g);
     }
 
     @Override
     public void drawSelectionBorder(Graphics g) {
-        // TODO Auto-generated method stub
+        decoratedFigure.drawSelectionBorder(g);
     }
 
     @Override
