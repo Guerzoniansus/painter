@@ -43,6 +43,9 @@ public class GUI {
 
         ToolButton ellipseButton = grid.generateButton(Tools.TOOL_ELLIPSE, IMAGE_PATH + "circle.png", this);
         buttons.put(ellipseButton.getTool(), ellipseButton);
+
+        ToolButton ornamentButton = grid.generateButton(Tools.TOOL_ORNAMENT, IMAGE_PATH + "ornament.png", this);
+        buttons.put(ornamentButton.getTool(), ornamentButton);
     }
 
     /**

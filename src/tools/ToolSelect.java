@@ -50,6 +50,13 @@ public class ToolSelect extends Tool implements KeyListener, MouseWheelListener 
         return selectedFigures;
     }
 
+    /**
+     * Clear the selected figures
+     */
+    public void clearSelectedFigures() {
+        selectedFigures.clear();
+    }
+
     @Override
     public void activate() {
         painter.addMouseListener(this);

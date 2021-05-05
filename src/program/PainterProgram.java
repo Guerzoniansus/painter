@@ -166,6 +166,7 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
      */
     public void undo() {
         history.undo();
+        repaint();
     }
 
     /**
@@ -173,6 +174,7 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
      */
     public void redo() {
         history.redo();
+        repaint();
     }
 
     /**
@@ -187,8 +189,12 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
      * Replace the screen by loading a figure from file
      */
     public void load() {
+        currentTool.deActivate();
+
         LoadCommand loadCommand = new LoadCommand(this);
         executeCommand(loadCommand);
+
+        currentTool.activate();
     }
 
     /**

@@ -7,15 +7,14 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ToolOrnament extends Tool implements KeyListener {
 
     // Keyboard code
     private static final int ENTER_BUTTON = 10;
+    private static final int BACKSPACE_BUTTON = 8;
 
-    private List<Figure> selectedFigures;
+    private Figure selectedFigure;
 
     private double clickX;
     private double clickY;
@@ -33,7 +32,7 @@ public class ToolOrnament extends Tool implements KeyListener {
      */
     public ToolOrnament(PainterProgram painter) {
         super(painter);
-        selectedFigures = new ArrayList<>();
+        selectedFigure = null;
         typing = false;
         clickX = 0;
         clickY = 0;
@@ -45,6 +44,10 @@ public class ToolOrnament extends Tool implements KeyListener {
         if (typing) {
             g.drawString(typedCharacters, (int) clickX, (int) clickY);
         }
+
+        if (selectedFigure != null) {
+            selectedFigure.drawSelectionBorder(g);
+        }
     }
 
     @Override
@@ -52,8 +55,16 @@ public class ToolOrnament extends Tool implements KeyListener {
         painter.addMouseListener(this);
         painter.addKeyListener(this);
 
-        // Get selected figures
-        selectedFigures = new ArrayList<>(((ToolSelect) Tools.TOOL_SELECT).getSelectedFigures());
+        // Get selected figure
+        if (((ToolSelect) Tools.TOOL_SELECT).getSelectedFigures().size() > 0) {
+            selectedFigure = ((ToolSelect) Tools.TOOL_SELECT).getSelectedFigures().get(0);
+            ((ToolSelect) Tools.TOOL_SELECT).clearSelectedFigures();
+        }
+
+        else {
+            selectedFigure = null;
+        }
+
         typing = false;
         clickX = 0;
         clickY = 0;
@@ -64,24 +75,65 @@ public class ToolOrnament extends Tool implements KeyListener {
         painter.removeMouseListener(this);
         painter.removeKeyListener(this);
 
-        selectedFigures.clear();
+        selectedFigure = null;
         typedCharacters = "";
     }
 
     private void createOrnament() {
-        //TODO
+
+        // Center point of the figure
+       /* int figureX = selectedFigure.getX();
+        int figureY = selectedFigure.getY();
+
+        String position = determinePosition(selectedFigure, clickX, clickY);
+
+        painter.repaint();*/
+
+        // TODO
+        // Replace selected figures with new ornament
+    }
+
+    private String determinePosition(Figure figure, double clickX, double clickY) {
+        // Center point
+        /*int figureX = figure.getX();
+        int figureY = figure.getY();
+
+        // Intentionally prioritizing y above x
+        if (clickY < figureY)
+            return "top";
+
+        else if (clickY > figureY)
+            return "bottom";
+
+        else if (clickX < figureX)
+            return "left";
+
+        else  return "right";*/
+        return "yo";
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         // Only do stuff if there are actually any selected figures
-        if (selectedFigures.size() < 1)
+        if (selectedFigure == null)
+            return;
+
+        // Don't allow creating a new ornament when still typing the previous one
+        if (typing == true)
             return;
 
         // Mouse click point
         clickX = e.getPoint().getX();
         clickY = e.getPoint().getY();
-        typing = true;
+
+        // Only allow clicks outside the figure to make determining position easier
+        if (selectedFigure.contains(clickX, clickY))
+            return;
+
+        else {
+            typing = true;
+            painter.disableKeyboardInput();
+        }
     }
 
 
@@ -91,15 +143,26 @@ public class ToolOrnament extends Tool implements KeyListener {
         if (typing == false)
             return;
 
+        // Make backspace work by removing the last letter
+        if (e.getKeyCode() == BACKSPACE_BUTTON) {
+            if (typedCharacters.length() > 0) {
+                typedCharacters = typedCharacters.substring(0, typedCharacters.length() - 1);
+            }
 
+            return;
+        }
+
+        // Pressed enter, create ornament
         if (e.getKeyCode() == ENTER_BUTTON) {
             typing = false;
+            painter.enableKeyboardInput();
             createOrnament();
         }
 
         else {
             // Add typed letter to the typed text
-            typedCharacters = typedCharacters + Character.toString(e.getKeyChar());
+            typedCharacters = typedCharacters + e.getKeyChar();
+            painter.repaint();
         }
 
     }

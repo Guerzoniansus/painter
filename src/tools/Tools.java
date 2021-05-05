@@ -10,6 +10,7 @@ public class Tools {
     public static Tool TOOL_SELECT;
     public static Tool TOOL_RECTANGLE;
     public static Tool TOOL_ELLIPSE;
+    public static Tool TOOL_ORNAMENT;
 
     /**
      * Create all tools
@@ -19,5 +20,6 @@ public class Tools {
         TOOL_SELECT = new ToolSelect(painter);
         TOOL_RECTANGLE = new ToolRectangle(painter);
         TOOL_ELLIPSE = new ToolEllipse(painter);
+        TOOL_ORNAMENT = new ToolOrnament(painter);
     }
 }

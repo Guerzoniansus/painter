@@ -3,6 +3,8 @@ package commands;
 import program.PainterProgram;
 import shapes.Figure;
 import shapes.Group;
+import tools.ToolSelect;
+import tools.Tools;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class CreateGroupCommand implements Command {
     public void undo() {
         painter.removeFigure(group);
         figures.forEach(figure -> painter.addFigure(figure));
+        ((ToolSelect) Tools.TOOL_SELECT).clearSelectedFigures();
     }
 
     @Override

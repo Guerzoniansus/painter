@@ -31,8 +31,6 @@ public class History {
             // Update the history lists
             historyCommands.remove(command);
             undoneCommands.add(command);
-
-            System.out.println("Undo " + command.getClass().getSimpleName());
         }
     }
 
@@ -48,8 +46,6 @@ public class History {
             // Update the history lists
             historyCommands.add(command);
             undoneCommands.remove(command);
-
-            System.out.println("Redo " + command.getClass().getSimpleName());
         }
     }
 
