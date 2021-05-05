@@ -98,43 +98,47 @@ public class Group implements Figure {
 
     /**
      * Gets the smallest and biggest X and subtracts it, and then adds up the width of the figure width the biggest X
-     * @return The sum (width)
+     * @return The sum (width = left side of the left figure to the right side of the right figure)
      */
     @Override 
     public int getWidth(){
-        Figure smallestWidthFigure = figures.get(0);
-        Figure biggestWidthFigure = figures.get(0);
-        int smallestX = smallestWidthFigure.getX();
-        int biggestX = biggestWidthFigure.getX();
+        int biggestWidthFigure = figures.get(0).getWidth();
+        int smallestX = figures.get(0).getX();
+        int biggestX = figures.get(0).getX();
+        
         for (Figure figure : figures) {
             if (smallestX > figure.getX()) {
-                smallestWidthFigure = figure;
+                smallestX = figure.getX();
             }
             else if (biggestX < figure.getX()) {
-                biggestWidthFigure = figure;
+                biggestWidthFigure = figure.getWidth();
+                biggestX = figure.getX();
             }
         }
-        return ((biggestX - smallestX) + biggestWidthFigure.getWidth());
+        
+        return ((biggestX - smallestX) + biggestWidthFigure);
     }
 
     /**
      * Gets the smallest and biggest Y and subtracts it, and then adds up the width of the figure width the biggest Y
-     * @return The sum (heigth)
+     * @return The sum (heigth = bottom of the bottom figure to the top of the top figure)
      */
     @Override 
     public int getHeight(){
-        Figure smallestHeigthFigure = figures.get(0);
-        Figure biggestHeigthFigure = figures.get(0);
-        int smallestY = smallestHeigthFigure.getY();
-        int biggestY = biggestHeigthFigure.getY();
+        int biggestHeigthFigure = figures.get(0).getHeight();
+        int smallestY = figures.get(0).getY();
+        int biggestY = figures.get(0).getY();
+        
         for (Figure figure : figures) {
             if (smallestY > figure.getY()) {
-                smallestHeigthFigure = figure;
+                smallestY = figure.getY();
             }
             else if (biggestY < figure.getY()) {
-                biggestHeigthFigure = figure;
+                biggestHeigthFigure = figure.getHeight();
+                biggestY = figure.getY();
             }
         }
-        return ((biggestY - smallestY) + biggestHeigthFigure.getHeight());
+        
+        return ((biggestY - smallestY) + biggestHeigthFigure);
     }
 }
