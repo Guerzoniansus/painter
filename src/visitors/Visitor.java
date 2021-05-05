@@ -1,5 +1,6 @@
 package visitors;
 
+import decorator.Ornament;
 import shapes.Group;
 import shapes.Shape;
 
@@ -16,4 +17,6 @@ public interface Visitor {
      * @param group The group to visit
      */
     void visit(Group group);
+
+	void visit(Ornament ornament);
 }
