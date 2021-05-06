@@ -70,14 +70,14 @@ public class Group implements Figure {
      */
     @Override 
     public int getX(){
-        Figure leftFigure = figures.get(0);
-        int x = leftFigure.getX();
+        int smallestX = figures.get(0).getX();
+
         for (Figure figure : figures) {
-            if (x > figure.getX()) {
-                leftFigure = figure;
+            if (figure.getX() < smallestX) {
+                smallestX = figure.getX();
             }
         }
-        return x;
+        return smallestX;
     }
 
     /**
@@ -86,14 +86,14 @@ public class Group implements Figure {
      */
     @Override 
     public int getY(){
-        Figure highestFigure = figures.get(0);
-        int y = highestFigure.getY();
+        int smallestY = figures.get(0).getY();
+
         for (Figure figure : figures) {
-            if (y < figure.getY()) {
-                highestFigure = figure;
+            if (figure.getY() < smallestY) {
+                smallestY = figure.getY();
             }
         }
-        return y;
+        return smallestY;
     }
 
     /**
@@ -102,7 +102,7 @@ public class Group implements Figure {
      */
     @Override 
     public int getWidth(){
-        int biggestWidthFigure = figures.get(0).getWidth();
+        int biggestWidth = figures.get(0).getWidth();
         int smallestX = figures.get(0).getX();
         int biggestX = figures.get(0).getX();
         
@@ -111,12 +111,12 @@ public class Group implements Figure {
                 smallestX = figure.getX();
             }
             else if (biggestX < figure.getX()) {
-                biggestWidthFigure = figure.getWidth();
+                biggestWidth = figure.getWidth();
                 biggestX = figure.getX();
             }
         }
         
-        return ((biggestX - smallestX) + biggestWidthFigure);
+        return ((biggestX - smallestX) + biggestWidth);
     }
 
     /**
@@ -125,20 +125,22 @@ public class Group implements Figure {
      */
     @Override 
     public int getHeight(){
-        int biggestHeigthFigure = figures.get(0).getHeight();
-        int smallestY = figures.get(0).getY();
-        int biggestY = figures.get(0).getY();
-        
+        int topY = Integer.MAX_VALUE; // Top of the figure
+        int height = 0;
+
         for (Figure figure : figures) {
-            if (smallestY > figure.getY()) {
-                smallestY = figure.getY();
+            if (figure.getY() < topY) {
+                topY = figure.getY();
             }
-            else if (biggestY < figure.getY()) {
-                biggestHeigthFigure = figure.getHeight();
-                biggestY = figure.getY();
+
+            int outerY = figure.getY() + figure.getHeight(); // Very bottom of the figure
+            int heightWithThisFigure = outerY - topY; // From the top of the group to the bottom of this figure
+
+            if (heightWithThisFigure > height) {
+                height = heightWithThisFigure;
             }
         }
-        
-        return ((biggestY - smallestY) + biggestHeigthFigure);
+
+        return height;
     }
 }

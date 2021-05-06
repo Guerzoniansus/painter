@@ -6,7 +6,7 @@ import shapes.Shape;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import decorator.Ornament;
+import shapes.Ornament;
 
 public class SaveFigureVisitor implements Visitor {
 
@@ -44,6 +44,20 @@ public class SaveFigureVisitor implements Visitor {
         try {
             writer.write(whiteSpace + formatShape(shape));
             writer.write("\n");
+        }
+
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void visit(Ornament ornament) {
+        try {
+            writer.write(whiteSpace + formatOrnament(ornament));
+            writer.write("\n");
+
+            ornament.getDecoratedFigure().accept(this);
         }
 
         catch (IOException e) {
@@ -93,8 +107,13 @@ public class SaveFigureVisitor implements Visitor {
         return shape.getName() + " " + shape.getX() +  " " + shape.getY() + " " + shape.getWidth() + " " + shape.getHeight();
     }
 
-    @Override
-    public void visit(Ornament ornament) {
-        // TODO Auto-generated method stub
+    /**
+     * Format an ornament as string the way it should be saved
+     * @param ornament The ornament to format as string
+     * @return The formatted string version of the ornament
+     */
+    private String formatOrnament(Ornament ornament) {
+        return ornament.getName() + " " + ornament.getPosition() + " \"" + ornament.getText() + "\"";
     }
+
 }

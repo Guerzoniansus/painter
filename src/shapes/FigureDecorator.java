@@ -1,6 +1,4 @@
-package decorator;
-
-import shapes.Figure;
+package shapes;
 
 public abstract class FigureDecorator implements Figure {
 

@@ -1,6 +1,6 @@
 package visitors;
 
-import decorator.Ornament;
+import shapes.Ornament;
 import shapes.Group;
 import shapes.Shape;
 
@@ -33,7 +33,6 @@ public class MoveFigureVisitor implements Visitor {
 
     @Override
     public void visit(Ornament ornament) {
-        // TODO Auto-generated method stub
-        
+        ornament.getDecoratedFigure().accept(this);
     }
 }

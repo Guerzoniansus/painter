@@ -1,0 +1,16 @@
+group 2
+  group 2
+    ornament right "cirkel"
+    ellipse 938 202 177 216
+    ornament top "dit is een hele grote groep"
+    group 2
+      group 2
+        rectangle 445 150 177 118
+        ellipse 562 457 293 119
+      rectangle 209 452 121 111
+  ornament top "smiley"
+  group 2
+    group 2
+      ellipse 983 613 106 77
+      ellipse 1133 624 95 73
+    rectangle 994 743 191 75

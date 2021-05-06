@@ -43,6 +43,7 @@ public class FileLoader {
         return figures;
     }
 
+
     /**
      * Parse a figure
      * @param lines The list of lines to parse
@@ -57,28 +58,83 @@ public class FileLoader {
             return parseGroup(lines, i, whiteSpace);
         }
 
+        else if (line.contains("ornament")) {
+            return parseOrnament(lines, i, whiteSpace);
+        }
+
         else {
-            line = line.trim();
+            return parseShape(lines, i, whiteSpace);
+        }
+    }
 
-            String[] parts = line.split(" ");
+    /**
+     * Parse a Shape
+     * @param lines The list of lines to parse
+     * @param i The index of the line to parse
+     * @param whiteSpace A string with the amount of starting whitespaces before this figure
+     * @return A new figure from the specified line
+     */
+    private static Shape parseShape(List<String> lines, int i, String whiteSpace) {
+        String line = lines.get(i).trim();
 
-            String name = parts[0];
-            int x = Integer.parseInt(parts[1]);
-            int y = Integer.parseInt(parts[2]);
-            int width = Integer.parseInt(parts[3]);
-            int height = Integer.parseInt(parts[4]);
+        String[] parts = line.split(" ");
 
-            switch (name) {
-                case "rectangle":
-                    return new Rectangle(x, y, width, height);
-                case "ellipse":
-                    return new Ellipse(x, y, width, height);
-                default:
-                    System.out.println("Check your save file, something is wrong on this line:");
-                    System.out.println(line);
-                    return null;
+        String name = parts[0];
+        int x = Integer.parseInt(parts[1]);
+        int y = Integer.parseInt(parts[2]);
+        int width = Integer.parseInt(parts[3]);
+        int height = Integer.parseInt(parts[4]);
+
+        switch (name) {
+            case "rectangle":
+                return new Rectangle(x, y, width, height);
+            case "ellipse":
+                return new Ellipse(x, y, width, height);
+            default:
+                System.out.println("Check your save file, something is wrong on this line " + i + ":");
+                System.out.println(line);
+                return null;
+        }
+    }
+
+    /**
+     * Parse an ornament
+     * @param lines The list of parsable lines
+     * @param i The index of the line to parse
+     * @param whiteSpace A string with the amount of starting whitespaces before this figure
+     * @return A new Ornament from the specified line
+     */
+    private static Ornament parseOrnament(List<String> lines, int i, String whiteSpace) {
+        String line = lines.get(i).trim();
+
+        String position = line.split(" ")[1];
+
+        StringBuilder sb = new StringBuilder();
+
+        // Load the ornament text
+        {
+            boolean seenFirstQuote = false; // The opening quote of the ornament text
+            char[] characters = line.toCharArray();
+
+            // characters.length - 1 because the last character is the closing quote "
+            for (int charCounter = 0; charCounter < characters.length - 1; charCounter++) {
+                char character = characters[charCounter];
+
+                if (seenFirstQuote) {
+                    sb.append(character);
+                }
+
+                else {
+                    if (character == '"')
+                        seenFirstQuote = true;
+                }
             }
         }
+
+        String text = sb.toString();
+        Figure decoratedFigure = parseFigure(lines, i + 1, whiteSpace);
+
+        return new Ornament(text, position, decoratedFigure);
     }
 
     /**
@@ -96,21 +152,26 @@ public class FileLoader {
 
         String nextLine = null;
 
+        boolean doingOrnament = false;
+
         while(i + 1 < lines.size()) {
             i++;
             nextLine = lines.get(i);
 
-            // If the whitespaces don't match, then this figure doesn't belong to this group (but an inner gruop)
+            // If the whitespaces don't match, then this figure doesn't belong to this group (but an inner group)
             if (startsWithExactWhiteSpace(whiteSpace, nextLine)) {
-                figures.add(parseFigure(lines, i, whiteSpace));
-            }
 
-            else {
-                // This prevents parsing figures that belong to a different group
-                if (nextLine.contains("group")) {
-                    break;
+                // i - 1 >= 0 to prevent index out of bounds
+                // After that, checking if previous line was "ornament", and then skipping a line
+                // because ornament already parses the figure underneath it
+                if (i - 1 >= 0 && lines.get(i - 1).contains("ornament") == true)
+                    continue;
+
+                else {
+                    figures.add(parseFigure(lines, i, whiteSpace));
                 }
             }
+
         }
 
         // Reset the white spaces

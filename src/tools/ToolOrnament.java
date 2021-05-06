@@ -1,7 +1,9 @@
 package tools;
 
+import commands.CreateOrnamentCommand;
 import program.PainterProgram;
 import shapes.Figure;
+import shapes.Ornament;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -42,7 +44,12 @@ public class ToolOrnament extends Tool implements KeyListener {
     @Override
     public void onDraw(Graphics g) {
         if (typing) {
-            g.drawString(typedCharacters, (int) clickX, (int) clickY);
+            if (typedCharacters.equals(""))
+                // Show keyboard input is enabled
+                g.drawString("_", (int) clickX, (int) clickY);
+
+            else
+                g.drawString(typedCharacters, (int) clickX, (int) clickY);
         }
 
         if (selectedFigure != null) {
@@ -55,7 +62,7 @@ public class ToolOrnament extends Tool implements KeyListener {
         painter.addMouseListener(this);
         painter.addKeyListener(this);
 
-        // Get selected figure
+        // Get selected figure, only do things if ONE figure is selected
         if (((ToolSelect) Tools.TOOL_SELECT).getSelectedFigures().size() > 0) {
             selectedFigure = ((ToolSelect) Tools.TOOL_SELECT).getSelectedFigures().get(0);
             ((ToolSelect) Tools.TOOL_SELECT).clearSelectedFigures();
@@ -82,34 +89,34 @@ public class ToolOrnament extends Tool implements KeyListener {
     private void createOrnament() {
 
         // Center point of the figure
-       /* int figureX = selectedFigure.getX();
+        int figureX = selectedFigure.getX();
         int figureY = selectedFigure.getY();
 
         String position = determinePosition(selectedFigure, clickX, clickY);
 
-        painter.repaint();*/
+        CreateOrnamentCommand command = new CreateOrnamentCommand(typedCharacters, position, selectedFigure, painter);
+        painter.executeCommand(command);
 
-        // TODO
-        // Replace selected figures with new ornament
+        selectedFigure = command.getOrnament();
+        painter.repaint();
     }
 
     private String determinePosition(Figure figure, double clickX, double clickY) {
         // Center point
-        /*int figureX = figure.getX();
+        int figureX = figure.getX();
         int figureY = figure.getY();
 
         // Intentionally prioritizing y above x
         if (clickY < figureY)
-            return "top";
+            return Ornament.TOP;
 
-        else if (clickY > figureY)
-            return "bottom";
+        else if (clickY > (figureY + figure.getHeight()))
+            return Ornament.BOTTOM;
 
         else if (clickX < figureX)
-            return "left";
+            return Ornament.LEFT;
 
-        else  return "right";*/
-        return "yo";
+        else return Ornament.RIGHT;
     }
 
     @Override
@@ -133,30 +140,34 @@ public class ToolOrnament extends Tool implements KeyListener {
         else {
             typing = true;
             painter.disableKeyboardInput();
+            painter.repaint();
         }
     }
 
-
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyTyped(KeyEvent e) {
         // Only let user type if typing somewhere
         if (typing == false)
             return;
 
         // Make backspace work by removing the last letter
-        if (e.getKeyCode() == BACKSPACE_BUTTON) {
+        if ((int) e.getKeyChar() == BACKSPACE_BUTTON) {
             if (typedCharacters.length() > 0) {
                 typedCharacters = typedCharacters.substring(0, typedCharacters.length() - 1);
+                painter.repaint();
             }
 
             return;
         }
 
         // Pressed enter, create ornament
-        if (e.getKeyCode() == ENTER_BUTTON) {
+        else if ((int) e.getKeyChar() == ENTER_BUTTON) {
             typing = false;
             painter.enableKeyboardInput();
             createOrnament();
+            typedCharacters = "";
+
+            return;
         }
 
         else {
@@ -164,6 +175,11 @@ public class ToolOrnament extends Tool implements KeyListener {
             typedCharacters = typedCharacters + e.getKeyChar();
             painter.repaint();
         }
+    }
+
+
+    @Override
+    public void keyPressed(KeyEvent e) {
 
     }
 
@@ -194,11 +210,6 @@ public class ToolOrnament extends Tool implements KeyListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
 
     }
 

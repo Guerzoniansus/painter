@@ -84,6 +84,8 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Don't remove this line
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+
         currentTool.onDraw(g);
         drawLastCommand(g);
         drawFigures(g);
@@ -109,7 +111,6 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
                 history.getLastCommand().getName() : "";
 
         g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 24));
         g.drawString("Last action: " + lastCommand, 300, 30);
     }
 
@@ -181,8 +182,11 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
      * Save the current screen to file
      */
     public void save() {
-        SaveCommand saveCommand = new SaveCommand(figures);
-        executeCommand(saveCommand);
+        // Only save if there is actually something to save
+        if (figures.size() > 0) {
+            SaveCommand saveCommand = new SaveCommand(figures);
+            executeCommand(saveCommand);
+        }
     }
 
     /**
@@ -204,6 +208,7 @@ public class PainterProgram extends JPanel implements MouseListener, MouseMotion
     public void executeCommand(Command command) {
         command.execute();
         history.addCommand(command);
+        repaint();
     }
 
     @Override
