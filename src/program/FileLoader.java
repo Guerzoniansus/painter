@@ -25,7 +25,7 @@ public class FileLoader {
         List<String> lines = new ArrayList<>();
 
         try {
-            String line = null;
+            String line;
 
             // Add all lines
             while ((line = reader.readLine()) != null) {
@@ -152,13 +152,9 @@ public class FileLoader {
         // Add two white spaces for the figures that belong to this group
         whiteSpace += "  ";
 
-        String nextLine = null;
-
-        boolean doingOrnament = false;
-
         while(i + 1 < lines.size()) {
             i++;
-            nextLine = lines.get(i);
+            String nextLine = lines.get(i);
 
             // If the whitespaces don't match, then this figure doesn't belong to this group (but an inner group)
             if (startsWithExactWhiteSpace(whiteSpace, nextLine)) {
@@ -175,9 +171,6 @@ public class FileLoader {
             }
 
         }
-
-        // Reset the white spaces
-        whiteSpace = whiteSpace.substring(0, whiteSpace.length() - 2);
 
         return new Group(figures);
     }
