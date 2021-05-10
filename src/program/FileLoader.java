@@ -132,6 +132,8 @@ public class FileLoader {
         }
 
         String text = sb.toString();
+
+        // Under the ornament is the decoratedFigure that belongs to it
         Figure decoratedFigure = parseFigure(lines, i + 1, whiteSpace);
 
         return new Ornament(text, position, decoratedFigure);
