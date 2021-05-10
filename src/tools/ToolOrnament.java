@@ -87,11 +87,6 @@ public class ToolOrnament extends Tool implements KeyListener {
     }
 
     private void createOrnament() {
-
-        // Center point of the figure
-        int figureX = selectedFigure.getX();
-        int figureY = selectedFigure.getY();
-
         String position = determinePosition(selectedFigure, clickX, clickY);
 
         CreateOrnamentCommand command = new CreateOrnamentCommand(typedCharacters, position, selectedFigure, painter);
