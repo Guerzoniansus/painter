@@ -25,19 +25,6 @@ public class ResizeCommand implements Command {
         this.figures = figures;
     }
 
-    /**
-     * Create a command for resizing a figure
-     * @param painter The painter object
-     * @param amount The amount to resize the figure. Use a negative number to shrink it.
-     * @param figure The figure to resize
-     */
-    public ResizeCommand(PainterProgram painter, int amount, Figure figure){
-        this.painter = painter;
-        this.amount = amount;
-        this.figures = new ArrayList<>();
-        figures.add(figure);
-    }
-
     @Override
     public void execute(){
         ResizeFigureVisitor visitor = new ResizeFigureVisitor(amount);
