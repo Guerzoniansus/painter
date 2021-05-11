@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 
 public class FileLoader {
 
+    private FileLoader() {}
+
     public static List<Figure> loadFigures(String fileName) {
         BufferedReader reader = null;
 
